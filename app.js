@@ -41,7 +41,19 @@ app.set("dbClient", client);
  * Handle routes
  */
 app.get("/dnca", function(req, res, next){
-    res.send("Hello");
+    req.app.get("dbClient").query(
+        "SELECT * FROM dnca",
+        function(err, result) {
+            if (err) {
+                console.log("DB operation failed: " + err);
+                res.status(400).send(err);
+            } else {
+                console.log("Successfully retrieved DNCA forms!");
+                console.log(result);
+                res.status(200).send(result.rows);
+            }
+        }
+    );
 });
 
 app.post("/dnca", function(req, res, next) {
@@ -54,7 +66,8 @@ app.post("/dnca", function(req, res, next) {
                 res.status(400).send(err);
             } else {
                 console.log("Successfully added DNCA form!");
-                res.status(200).send();
+                console.log(result);
+                res.status(200).send("DNCA from sent!");
             }
         }
     );
