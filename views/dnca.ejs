@@ -1,7 +1,76 @@
-<h1>Hello!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 
-<% dncas.forEach(function(dnca) { %>
-    <li><%= dnca.id %></li>
-    <%= dnca.info.assessmentDate %>
-    <%= dnca.info.city %>
-<% }); %>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="<%= url %>/dnca/stylesheets/form.css">
+</head>
+<body>
+    <div class="main">
+        <div id="header">            
+            <h1>CITIZENS’ DISASTER RESPONSE CENTER AND NETWORK</h1>
+            <h1 class="sub">DAMAGE, NEEDS, CAPACITIES ASSESSMENT (DNCA)</h1>
+        </div>
+        <p>
+            This tool is used after a disaster event to determine the following: current situation, resources available, needs, gaps, and the interventions that
+            should be prioritized. This can be used again to update the initial data gathered and to determine if the situation has changed from the initial
+            assessment. Methodologies that can be used are: interviews with community members, FGDs, KIIs, information gathering, and field observations.
+        </p>
+        <p>
+            <strong>REMINDER</strong>
+            <ul>
+                <li>
+                    Conduct courtesy calls with relevant offices. Introduce the team and the organization.
+                </li>
+                <li>                    
+                    Be courteous and sensitive to the situation. DO NOT make any promises.
+                </li>
+                <li>                    
+                    Remember to get secondary information when available.
+                </li>
+                <li>
+                    Get contact information of key informants and other possible sources of information.
+                </li>
+                <li>
+                    Take photos and videos if possible. Please ask permission before doing so.
+                </li>
+                <li>                    
+                    Thank the respondents for their responses and participation.
+                </li>
+            </ul>
+        </p>
+        <div id="area-info">
+            <table>
+                <tr>
+                    <td>Name of Organization:</td>
+                    <td><%= dnca.info.orgName %></td>
+                    <td>Date of Assessment:</td>
+                    <td><%= dnca.info.assessmentDate %></td>
+                </tr>
+                <tr>
+                    <td>Sitio/Purok/Zone:</td>
+                    <td><%= dnca.info.sitio %></td>
+                    <td>Barangay:</td>
+                    <td><%= dnca.info.barangay %></td>
+                </tr>
+                <tr>
+                    <td>Municipality/City:</td>
+                    <td><%= dnca.info.city %></td>
+                    <td>Province:</td>
+                    <td><%= dnca.info.province %></td>
+                </tr>
+                <tr>
+                    <td>Name of Interviewer:</td>
+                    <td><%= dnca.info.interviewer %></td>
+                    <td>Contact Number:</td>
+                    <td><%= dnca.info.interviewerNo %></td>
+                </tr>
+            </table>
+        </div>
+    </div>    
+</body>
+</html>
