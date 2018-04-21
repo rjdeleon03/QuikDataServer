@@ -1,0 +1,7 @@
+<h1>Hello!</h1>
+
+<% dncas.forEach(function(dnca) { %>
+    <li><%= dnca.id %></li>
+    <%= dnca.info.assessmentDate %>
+    <%= dnca.info.city %>
+<% }); %>

@@ -1,6 +1,11 @@
 var express     = require("express");
 var bodyParser  = require("body-parser");
+var path        = require('path');
 var app         = express();
+
+// view engine setup
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
 /*
  * Body parser setup
@@ -48,9 +53,25 @@ app.get("/dnca", function(req, res, next){
                 console.log("DB operation failed: " + err);
                 res.status(400).send(err);
             } else {
-                console.log("Successfully retrieved DNCA forms!");
+                console.log("Successfully retrieved all DNCA forms!");
                 console.log(result);
                 res.status(200).send(result.rows);
+            }
+        }
+    );
+});
+
+app.get("/dnca/:id", function(req, res, next) {
+    req.app.get("dbClient").query(
+        "SELECT * FROM dnca WHERE ID=$1", [req.params.id],
+        function(err, result) {
+            if (err) {
+                console.log("DB operation failed: " + err);
+                res.status(400).send(err);
+            } else {
+                console.log("Successfully retrieved DNCA form!");
+                console.log(result.rows);
+                res.status(200).render("dnca", {dncas: result.rows});
             }
         }
     );
