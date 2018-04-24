@@ -115,7 +115,13 @@ app.get("/dnca/:id/download", function(req, res, next) {
                 // Render pdf
                 res.setHeader('Content-type', 'application/pdf');
                 pdf.create(html).toStream(function(err, stream){
-                    stream.pipe(res);
+                    if (err) {
+                        console.log("Error generating PDF: " + err);
+                        res.status(404).send("Error!");
+                    } else {
+                        console.log("PDF successfully generated!");
+                        stream.pipe(res);
+                    }
                 });
 
                 // Redirect to DNCA form page

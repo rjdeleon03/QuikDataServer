@@ -9,7 +9,7 @@
     padding-bottom: 10px;
 }
 
-#header h1 {
+div h1 {
     font-size: 15px;
     margin: 0;
 }
@@ -26,6 +26,16 @@ table {
     width: 100%;
 }
 
-td:nth-child(2n + 1) {
+#area-info td:nth-child(2n + 1) {
     font-weight: bold;
+}
+
+.table-info table, 
+.table-info td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.table-info #calamity td:nth-child(2n) {
+    width: 82%;
 }

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>DNCA Form</title>
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="<%= url %>/dnca/stylesheets/form.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/dnca/stylesheets/form.css"> <!-- Must use host of server (constant) -->
 </head>
 <body>
     <div class="main">
@@ -68,6 +68,29 @@
                     <td><%= dnca.info.interviewer %></td>
                     <td>Contact Number:</td>
                     <td><%= dnca.info.interviewerNo %></td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <div class="table-info">
+            <p>
+                <strong>I. GENERAL INFORMATION</strong>
+            </p>
+            <p>
+                <strong>Description of the Calamity</strong>
+            </p>
+            <table id="calamity">
+                <tr>
+                    <td>Type of Calamity:</td>
+                    <td><%= dnca.info.genInfo.calamityDesc.calamityType %></td>
+                </tr>
+                <tr>
+                    <td>Date of Occurrence:</td>
+                    <td><%= dnca.info.genInfo.calamityDesc.dateOccurred %></td>
+                </tr>
+                <tr>
+                    <td>Description of the Event:</td>
+                    <td><%= dnca.info.genInfo.calamityDesc.description %></td>
                 </tr>
             </table>
         </div>
