@@ -20,6 +20,7 @@
             should be prioritized. This can be used again to update the initial data gathered and to determine if the situation has changed from the initial
             assessment. Methodologies that can be used are: interviews with community members, FGDs, KIIs, information gathering, and field observations.
         </p>
+        <br>
         <p>
             <strong>REMINDER</strong>
             <ul>
@@ -43,6 +44,7 @@
                 </li>
             </ul>
         </p>
+        <br>
         <div id="area-info">
             <table>
                 <tr>
@@ -72,10 +74,13 @@
             </table>
         </div>
         <br>
+
+        <!-- GENERAL INFORMATION -->
         <div class="table-info">
             <p>
                 <strong>I. GENERAL INFORMATION</strong>
             </p>
+            <br>
             <p>
                 <strong>Description of the Calamity</strong>
             </p>
@@ -93,6 +98,87 @@
                     <td><%= dnca.info.genInfo.calamityDesc.description %></td>
                 </tr>
             </table>
+            <br>
+
+            <p>
+                <strong>Brief Description of the Affected Area</strong>
+            </p>
+            <div class="single-box">
+                <em>Accessibility, safety, cultural context, religion, availability of markets, etc.</em>
+                <div class="text">
+                    <%= dnca.info.genInfo.affectedAreaDesc %>
+                </div>
+            </div>
+            <br>
+            
+            <!-- POPULATION DATA -->
+            <p>
+                <strong>Population Data</strong>
+            </p>            
+            <table id="population-data">
+                <tr>
+                    <th>Age</th>
+                    <th colspan=2>Total Population (Baseline)</th>
+                    <th colspan=2>Affected Population</th>
+                    <th colspan=2>Displaced Population</th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Male</td>
+                    <td>Female</td>
+                    <td>Male</td>
+                    <td>Female</td>
+                    <td>Male</td>
+                    <td>Female</td>
+                </tr>
+                <% dnca.info.genInfo.populationData.populationDataRows.forEach(function(row) { %>                    
+                    <tr>
+                        <td><%= row.ageGroup %></td>
+                        <td><%= row.total.male %></td>
+                        <td><%= row.total.female %></td>
+                        <td><%= row.affected.male %></td>
+                        <td><%= row.affected.female %></td>
+                        <td><%= row.displaced.male %></td>
+                        <td><%= row.displaced.female %></td>
+                    </tr>
+                <% }) %>
+                <tr>
+                    <td>TOTAL</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            <br>
+            
+            <!-- FAMILY AND HOUSEHOLD DATA -->
+            <p>
+                <strong>Family and Household Data</strong>
+            </p>       
+            <table id="family-data">
+                <tr>
+                    <th></th>
+                    <th>Total Population (Baseline)</th>
+                    <th>Number of Affected</th>
+                    <th>Number of Displaced</th>
+                </tr>
+                <tr>
+                    <td>Families</td>
+                    <td><%= dnca.info.genInfo.familyData.totalFamilies %></td>
+                    <td><%= dnca.info.genInfo.familyData.affectedFamilies %></td>
+                    <td><%= dnca.info.genInfo.familyData.displacedFamilies %></td>
+                </tr>
+                <tr>
+                    <td>Households</td>
+                    <td><%= dnca.info.genInfo.familyData.totalHouseholds %></td>
+                    <td><%= dnca.info.genInfo.familyData.affectedHouseholds %></td>
+                    <td><%= dnca.info.genInfo.familyData.displacedHouseholds %></td>
+                </tr>
+            </table>
+
         </div>
     </div>    
 </body>

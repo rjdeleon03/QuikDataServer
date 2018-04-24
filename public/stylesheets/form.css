@@ -4,6 +4,10 @@
     font-size: 12px !important;
 }
 
+.main p {
+    margin-bottom: 0;
+}
+
 #header {
     text-align: center;
     padding-bottom: 10px;
@@ -20,6 +24,8 @@ div h1 {
 
 ul {
     list-style: none;
+    padding-left: 0;
+    margin: 0;
 }
 
 table {
@@ -31,6 +37,7 @@ table {
 }
 
 .table-info table, 
+.table-info th,
 .table-info td {
     border: 1px solid black;
     border-collapse: collapse;
@@ -38,4 +45,12 @@ table {
 
 .table-info #calamity td:nth-child(2n) {
     width: 82%;
+}
+
+.single-box {
+    border: 1px solid black;
+}
+
+.single-box .text {
+    padding-top: 10px;
 }
