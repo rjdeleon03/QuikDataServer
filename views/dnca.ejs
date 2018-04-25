@@ -117,13 +117,12 @@
             </p>            
             <table id="population-data">
                 <tr>
-                    <th>Age</th>
+                    <th rowspan=2>Age</th>
                     <th colspan=2>Total Population (Baseline)</th>
                     <th colspan=2>Affected Population</th>
                     <th colspan=2>Displaced Population</th>
                 </tr>
                 <tr>
-                    <td></td>
                     <td>Male</td>
                     <td>Female</td>
                     <td>Male</td>
@@ -142,15 +141,6 @@
                         <td><%= row.displaced.female %></td>
                     </tr>
                 <% }) %>
-                <tr>
-                    <td>TOTAL</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
             </table>
             <br>
             
@@ -178,7 +168,161 @@
                     <td><%= dnca.info.genInfo.familyData.displacedHouseholds %></td>
                 </tr>
             </table>
+            <br>
 
+            <!-- VULNERABLE POPULATION -->
+            <p>
+                <strong>Number of Vulnerable Population</strong>
+            </p>  
+            <table id="vulnerable">
+                <tr>
+                    <th rowspan=2>Age</th>
+                    <th rowspan=2>Pregnant</th>
+                    <th rowspan=2>Lactating Mothers</th>
+                    <th rowspan=2>LGBT</th>
+                    <th rowspan=2>Female-headed Households</th>
+                    <th colspan=2>Child-headed Households</th>
+                    <th colspan=2>Indigenous People</th>
+                    <th colspan=2>Persons with Disabilities</th>
+                    <th rowspan=2>Remarks</th>
+                </tr>
+                <tr>
+                    <th>M</th>
+                    <th>F</th>
+                    <th>M</th>
+                    <th>F</th>
+                    <th>M</th>
+                    <th>F</th>
+                </tr>
+                <% dnca.info.genInfo.vulnerablePopulationData.vulnerablePopulationDataRows.forEach(function(row) { %>
+                    <tr>
+                        <td><%= row.ageGroup %></td>
+                        <td><%= row.pregnant %></td>
+                        <td><%= row.lactating %></td>
+                        <td><%= row.lgbt %></td>
+                        <td><%= row.femaleHeadedHouseholds %></td>
+                        <td><%= row.childHeadedHouseholds.male %></td>
+                        <td><%= row.childHeadedHouseholds.female %></td>
+                        <td><%= row.indigenous.male %></td>
+                        <td><%= row.indigenous.female %></td>
+                        <td><%= row.disabled.male %></td>
+                        <td><%= row.disabled.female %></td>
+                        <td><%= row.remarks %></td>
+                    </tr>
+                <% }); %>
+            </table>
+            <br>
+
+            <!-- CASUALTIES -->
+            <p>
+                <strong>Number of Casualties</strong>
+            </p>  
+            <table id="casualties">
+                <tr>
+                    <th rowspan=2>Age</th>
+                    <th colspan=2>Dead</th>
+                    <th colspan=2>Missing</th>
+                    <th colspan=2>Injured</th>
+                    <tr>
+                        <th>Male</th>
+                        <th>Female</th>
+                        <th>Male</th>
+                        <th>Female</th>
+                        <th>Male</th>
+                        <th>Female</th>
+                    </tr>
+                </tr>
+                <% dnca.info.genInfo.casualtiesData.casualtiesDataRows.forEach(function(row) { %>
+                    <tr>                        
+                        <td><%= row.ageGroup %></td>
+                        <td><%= row.dead.male %></td>
+                        <td><%= row.dead.female %></td>
+                        <td><%= row.injured.male %></td>
+                        <td><%= row.injured.female %></td>
+                        <td><%= row.missing.male %></td>
+                        <td><%= row.missing.female %></td>
+                    </tr>
+                <% }); %>
+            </table>
+            <br>
+
+            <!-- CAUSE OF DEATH -->
+            <p>
+                <strong>Cause of Death</strong>
+            </p> 
+            <table id="cause-of-death">
+                <tr>
+                    <th colspan=2>Age and Gender</th>
+                    <th>Measles</th>
+                    <th>Diarrhea</th>
+                    <th>Pneumonia</th>
+                    <th>Dengue</th>
+                    <th>Drowning</th>
+                    <th>Heart Attack</th>
+                    <th>Electrocution</th>
+                    <th>Collapsed Building</th>
+                    <th>Others</th>
+                </tr>
+                <% dnca.info.genInfo.deathCauseData.deathCauseDataRows.forEach(function(row) { %>
+                    <tr>
+                        <td rowspan=2><%= row.ageGroup %></td>
+                        <td>M</td>
+                        <td><%= row.measles.male %></td>
+                        <td><%= row.diarrhea.male %></td>
+                        <td><%= row.pneumonia.male %></td>
+                        <td><%= row.dengue.male %></td>
+                        <td><%= row.drowning.male %></td>
+                        <td><%= row.heartAttack.male %></td>
+                        <td><%= row.electrocution.male %></td>
+                        <td><%= row.collapsedBuilding.male %></td>
+                        <td><%= row.others.male %></td>
+                    </tr>
+                    <tr>                        
+                        <td>F</td>
+                        <td><%= row.measles.female %></td>
+                        <td><%= row.diarrhea.female %></td>
+                        <td><%= row.pneumonia.female %></td>
+                        <td><%= row.dengue.female %></td>
+                        <td><%= row.drowning.female %></td>
+                        <td><%= row.heartAttack.female %></td>
+                        <td><%= row.electrocution.female %></td>
+                        <td><%= row.collapsedBuilding.female %></td>
+                        <td><%= row.others.female %></td>
+                    </tr>
+                <% }); %>
+            </table>
+            <br>
+
+            <!-- DAMAGE TO INFRASTRUCTURES -->
+            <p>
+                <strong>Damage to Infrastructures</strong>
+            </p> 
+            <table id="infra-damage">
+                <tr>
+                    <th rowspan=2>Infrastructure</th>
+                    <th rowspan=2>Number of Infrastructure</th>
+                    <th colspan=2>Status</th>
+                    <th rowspan=2>Remarks</th>
+                </tr>
+                <tr>
+                    <th>Functional</th>
+                    <th>Non-functional</th>
+                </tr>
+                <% dnca.info.genInfo.infrastructureDamageData.infrastructureDamageDataRows.forEach(function(row) { %>
+                    <tr>
+                        <td><%= row.infraType %></td>
+                        <td><%= row.damaged %></td>
+                        <% if (row.isFunctional === true) { %>
+                            <td class="check">X</td>
+                            <td class="check"></td>
+                        <% } else { %>
+                            <td class="check"></td>
+                            <td class="check">X</td>
+                        <% } %>
+                        <td><%= row.remarks %></td>
+                    </tr>
+                <% }); %>
+            </table>
         </div>
     </div>    
 </body>

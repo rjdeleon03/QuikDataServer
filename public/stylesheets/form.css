@@ -54,3 +54,7 @@ table {
 .single-box .text {
     padding-top: 10px;
 }
+
+#infra-damage .check {
+    text-align: center;
+}
