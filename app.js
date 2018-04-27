@@ -53,14 +53,22 @@ app.set("dbClient", client);
  */
 app.get("/dnca", function(req, res, next){
     req.app.get("dbClient").query(
-        "SELECT * FROM dnca",
+        `
+            SELECT id, 
+                (info::json->'sitio') AS sitio, 
+                (info::json->'barangay') AS barangay, 
+                (info::json->'city') AS city, 
+                (info::json->'province') AS province, 
+                (info::json->'assessmentDate') AS assessmentDate 
+            FROM dnca;
+        `,
         function(err, result) {
             if (err) {
                 console.log("DB operation failed: " + err);
                 res.status(400).send(err);
             } else {
                 console.log("Successfully retrieved all DNCA forms!");
-                console.log(result);
+                console.log(result.rows);
                 res.status(200).send(result.rows);
             }
         }
