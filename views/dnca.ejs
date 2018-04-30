@@ -49,27 +49,29 @@
             <table>
                 <tr>
                     <td>Name of Organization:</td>
-                    <td><%= dnca.info.orgName %></td>
+                    <td><%= dnca.info.formInfo.orgName %></td>
                     <td>Date of Assessment:</td>
-                    <td><%= dnca.info.assessmentDate %></td>
+                    <td>
+                        <%= dnca.info.formInfo.assessmentDate.year %>/<%= dnca.info.formInfo.assessmentDate.month + 1%>/<%= dnca.info.formInfo.assessmentDate.dayOfMonth %>
+                    </td>
                 </tr>
                 <tr>
                     <td>Sitio/Purok/Zone:</td>
-                    <td><%= dnca.info.sitio %></td>
+                    <td><%= dnca.info.formInfo.sitio %></td>
                     <td>Barangay:</td>
-                    <td><%= dnca.info.barangay %></td>
+                    <td><%= dnca.info.formInfo.barangay %></td>
                 </tr>
                 <tr>
                     <td>Municipality/City:</td>
-                    <td><%= dnca.info.city %></td>
+                    <td><%= dnca.info.formInfo.city %></td>
                     <td>Province:</td>
-                    <td><%= dnca.info.province %></td>
+                    <td><%= dnca.info.formInfo.province %></td>
                 </tr>
                 <tr>
                     <td>Name of Interviewer:</td>
-                    <td><%= dnca.info.interviewer %></td>
+                    <td><%= dnca.info.formInfo.interviewer %></td>
                     <td>Contact Number:</td>
-                    <td><%= dnca.info.interviewerNo %></td>
+                    <td><%= dnca.info.formInfo.interviewerNo %></td>
                 </tr>
             </table>
         </div>
