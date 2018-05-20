@@ -134,7 +134,7 @@
                 </tr>
                 <% dnca.info.genInfo.populationData.populationDataRows.forEach(function(row) { %>                    
                     <tr>
-                        <td><%= row.ageGroup %></td>
+                        <td><%= row.type %></td>
                         <td><%= row.total.male %></td>
                         <td><%= row.total.female %></td>
                         <td><%= row.affected.male %></td>
@@ -198,7 +198,7 @@
                 </tr>
                 <% dnca.info.genInfo.vulnerablePopulationData.vulnerablePopulationDataRows.forEach(function(row) { %>
                     <tr>
-                        <td><%= row.ageGroup %></td>
+                        <td><%= row.type %></td>
                         <td><%= row.pregnant %></td>
                         <td><%= row.lactating %></td>
                         <td><%= row.lgbt %></td>
@@ -236,7 +236,7 @@
                 </tr>
                 <% dnca.info.genInfo.casualtiesData.casualtiesDataRows.forEach(function(row) { %>
                     <tr>                        
-                        <td><%= row.ageGroup %></td>
+                        <td><%= row.type %></td>
                         <td><%= row.dead.male %></td>
                         <td><%= row.dead.female %></td>
                         <td><%= row.injured.male %></td>
@@ -267,7 +267,7 @@
                 </tr>
                 <% dnca.info.genInfo.deathCauseData.deathCauseDataRows.forEach(function(row) { %>
                     <tr>
-                        <td rowspan=2><%= row.ageGroup %></td>
+                        <td rowspan=2><%= row.type %></td>
                         <td>M</td>
                         <td><%= row.measles.male %></td>
                         <td><%= row.diarrhea.male %></td>
@@ -312,7 +312,7 @@
                 </tr>
                 <% dnca.info.genInfo.infrastructureDamageData.infrastructureDamageDataRows.forEach(function(row) { %>
                     <tr>
-                        <td><%= row.infraType %></td>
+                        <td><%= row.type %></td>
                         <td><%= row.damaged %></td>
                         <% if (row.isFunctional === true) { %>
                             <td class="check">X</td>
