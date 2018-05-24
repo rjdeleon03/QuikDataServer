@@ -55,11 +55,11 @@ app.get("/dnca", function(req, res, next){
     req.app.get("dbClient").query(
         `
             SELECT id, 
-                (info::json->'sitio') AS sitio, 
-                (info::json->'barangay') AS barangay, 
-                (info::json->'city') AS city, 
-                (info::json->'province') AS province, 
-                (info::json->'assessmentDate') AS assessmentDate 
+                (info::json->'formInfo'->'sitio') AS sitio, 
+                (info::json->'formInfo'->'barangay') AS barangay, 
+                (info::json->'formInfo'->'city') AS city, 
+                (info::json->'formInfo'->'province') AS province, 
+                (info::json->'formInfo'->'assessmentDate') AS assessmentDate 
             FROM dnca;
         `,
         function(err, result) {
