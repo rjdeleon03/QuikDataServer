@@ -92,8 +92,8 @@
                     <td><%= dnca.info.genInfo.calamityDesc.calamityType %></td>
                 </tr>
                 <tr>
-                    <td>Date of Occurrence:</td>
-                    <td><%= dnca.info.genInfo.calamityDesc.dateOccurred %></td>
+                    <td>Date of Occurrence:</td>                    
+                    <td><%= dnca.info.genInfo.calamityDesc.dateOccurred.year %>/<%= dnca.info.genInfo.calamityDesc.dateOccurred.month + 1%>/<%= dnca.info.genInfo.calamityDesc.dateOccurred.dayOfMonth %></td>
                 </tr>
                 <tr>
                     <td>Description of the Event:</td>
@@ -142,7 +142,16 @@
                         <td><%= row.displaced.male %></td>
                         <td><%= row.displaced.female %></td>
                     </tr>
-                <% }) %>
+                <% }) %>         
+                <tr>
+                    <td><%= dnca.info.genInfo.populationData.totalRow.type %></td>
+                    <td><%= dnca.info.genInfo.populationData.totalRow.total.male %></td>
+                    <td><%= dnca.info.genInfo.populationData.totalRow.total.female %></td>
+                    <td><%= dnca.info.genInfo.populationData.totalRow.affected.male %></td>
+                    <td><%= dnca.info.genInfo.populationData.totalRow.affected.female %></td>
+                    <td><%= dnca.info.genInfo.populationData.totalRow.displaced.male %></td>
+                    <td><%= dnca.info.genInfo.populationData.totalRow.displaced.female %></td>
+                </tr>
             </table>
             <br>
             
@@ -212,6 +221,20 @@
                         <td><%= row.remarks %></td>
                     </tr>
                 <% }); %>
+                <tr>
+                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.type %></td>
+                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.pregnant %></td>
+                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.lactating %></td>
+                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.lgbt %></td>
+                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.femaleHeadedHouseholds %></td>
+                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.childHeadedHouseholds.male %></td>
+                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.childHeadedHouseholds.female %></td>
+                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.indigenous.male %></td>
+                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.indigenous.female %></td>
+                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.disabled.male %></td>
+                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.disabled.female %></td>
+                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.remarks %></td>
+                </tr>
             </table>
             <br>
 
@@ -239,12 +262,21 @@
                         <td><%= row.type %></td>
                         <td><%= row.dead.male %></td>
                         <td><%= row.dead.female %></td>
-                        <td><%= row.injured.male %></td>
-                        <td><%= row.injured.female %></td>
                         <td><%= row.missing.male %></td>
                         <td><%= row.missing.female %></td>
+                        <td><%= row.injured.male %></td>
+                        <td><%= row.injured.female %></td>
                     </tr>
-                <% }); %>
+                <% }); %>  
+                <tr>
+                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.type %></td>
+                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.dead.male %></td>
+                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.dead.female %></td>
+                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.missing.male %></td>
+                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.missing.female %></td>
+                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.injured.male %></td>
+                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.injured.female %></td>
+                </tr>
             </table>
             <br>
 
@@ -355,8 +387,8 @@
                     <th>Owned</th>
                     <th>Rented</th>
                     <th>Tenant</th>
-                </tr>
-                
+                </tr>           
+
                 <% dnca.info.shelterInfo.houseDamageData.shelterHouseDamageDataRows.forEach(function(row) { %>                    
                     <tr>
                         <td><%= row.type %></td>
@@ -372,7 +404,22 @@
                         <td><%= row.totallyDamaged %></td>
                         <td><%= row.allDamaged %></td>
                     </tr>
-                <% }) %>
+                <% }) %>   
+
+                <tr>
+                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.type %></td>
+                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.houseCount %></td>
+                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.ownedLand %></td>
+                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.rentedLand %></td>
+                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.tenantLand %></td>
+                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.ownedHouse %></td>
+                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.rentedHouse %></td>
+                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.sharedHouse %></td>
+                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.informalSettlers %></td>
+                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.partiallyDamaged %></td>
+                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.totallyDamaged %></td>
+                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.allDamaged %></td>
+                </tr>
             </table>
             <br>
 
