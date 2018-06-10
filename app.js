@@ -1,8 +1,9 @@
 var express     = require("express");
 var bodyParser  = require("body-parser");
+var multer      = require("multer");
 var path        = require("path");
 var ejs         = require("ejs");
-var fs         = require("fs");
+var fs          = require("fs");
 var pdf         = require("html-pdf");
 var app         = express();
 
@@ -21,9 +22,21 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+/**
+ * Multer setup
+ */
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, __dirname + '/public/images/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+  }
+})
+var upload = multer({ storage: storage });
 
 /*
- * Database setup
+ * Sets up database
  */
 const { Pool, Client } = require("pg");
 const client = new Client({
@@ -33,23 +46,56 @@ const client = new Client({
     port: 5432
 });
 client.connect();
+
+/**
+ * Creates DNCA form table
+ */
 client.query(`
     CREATE TABLE IF NOT EXISTS dnca (
         ID serial NOT NULL PRIMARY KEY,
         info json NOT NULL
-    );
-`, function(err, result) {
+    );`, dbTableCreationCallback
+);
+
+/**
+ * Creates image table
+ */
+client.query(`
+    CREATE TABLE IF NOT EXISTS dnca_image (
+        ID serial NOT NULL PRIMARY KEY,
+        dnca_id int references dnca(ID),
+        url varchar(255) NOT NULL
+    );`, dbTableCreationCallback
+);
+
+/**
+ * Creates image table (TEST only)
+ */
+client.query(`
+    CREATE TABLE IF NOT EXISTS dnca_image_test (
+        ID serial NOT NULL PRIMARY KEY,
+        dnca_id int,
+        url varchar(255) NOT NULL
+    );`, dbTableCreationCallback
+);
+
+/**
+ * Callback for DB table creation
+ * @param {*} err 
+ * @param {*} result 
+ */
+function dbTableCreationCallback(err, result) {
     if (err) {
         console.log("DB table creation failed: " + err);
     } else {
         console.log("Successfully created DNCA table!");
     }
-});
+}
 
 app.set("dbClient", client);
 
-/*
- * Handle routes
+/**
+ * Handles routes
  */
 app.get("/dnca", function(req, res, next){
     req.app.get("dbClient").query(
@@ -75,6 +121,9 @@ app.get("/dnca", function(req, res, next){
     );
 });
 
+/**
+ * Handles viewing of individual DNCA forms
+ */
 app.get("/dnca/:id", function(req, res, next) {
     req.app.get("dbClient").query(
         "SELECT * FROM dnca WHERE ID=$1", [req.params.id],
@@ -94,7 +143,9 @@ app.get("/dnca/:id", function(req, res, next) {
     );
 });
 
-// Serve css files
+/**
+ * Serves CSS files
+ */
 app.get("/dnca/stylesheets/:css_id", function(req, res, next) {
     res.writeHead(200, {'Content-type' : 'text/css'});
     var fileContents = fs.readFileSync('./public/stylesheets/' + req.params.css_id, {encoding: 'utf8'});
@@ -102,6 +153,9 @@ app.get("/dnca/stylesheets/:css_id", function(req, res, next) {
     res.end();
 });
 
+/**
+ * Handles downloading of DNCA form
+ */
 app.get("/dnca/:id/download", function(req, res, next) {
     req.app.get("dbClient").query(
         "SELECT * FROM dnca WHERE ID=$1", [req.params.id],
@@ -139,6 +193,9 @@ app.get("/dnca/:id/download", function(req, res, next) {
     );
 });
 
+/**
+ * Handles DNCA form submission
+ */
 app.post("/dnca", function(req, res, next) {
     console.log(req.body);
     req.app.get("dbClient").query(
@@ -150,13 +207,51 @@ app.post("/dnca", function(req, res, next) {
             } else {
                 console.log("Successfully added DNCA form!");
                 console.log(result);
-                res.status(200).send("DNCA from sent!");
+                res.status(200).send("DNCA form sent!");
             }
         }
     );
-
 });
 
+/**
+ * Handles image submission
+ */
+app.post("/api/images", upload.array('image'), function(req, res, next) {
+    console.log(req.files);
+    var hasError = false;
+    req.files.forEach(function(file) {
+        req.app.get("dbClient").query(
+
+            //TODO: Reference DNCA form ID for image entry in DB
+            "INSERT INTO dnca_image_test(dnca_id, url) VALUES($1, $2)", [0, file.path],
+            function(err, result) {
+                hasError = err;
+            }
+        );
+    });
+    if (hasError) {
+        console.log("DB operation failed: " + err);
+        res.status(400).send(err);
+    } else {
+        console.log("Successfully added image!");
+        res.status(200).send("Image sent!");
+    }
+});
+
+/**
+ * Serves images
+ */
+app.get("/api/images/:filename", function(req, res, next) {
+    console.log(req.params.filename);
+    res.writeHead(200, {'Content-type' : 'image/jpeg'});
+    var fileContents = fs.readFileSync('./public/images/' + req.params.filename);
+    res.write(fileContents);
+    res.end();
+});
+
+/**
+ * Route for home page
+ */
 app.get("/", function(req, res, next) {
     res.send("Home");
 });
