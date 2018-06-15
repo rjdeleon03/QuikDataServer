@@ -26,14 +26,24 @@ app.use(bodyParser.json())
  * Multer setup
  */
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, __dirname + '/public/images/')
+  destination: function (req, file, callback) {
+    callback(null, __dirname + '/public/images/');
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+  filename: function (req, file, callback) {
+    // Set file name
+    let filename = file.fieldname + "_" + Date.now() + "_0";
+    fs.stat(file.destination + filename, function(err, stats) {
+        console.log(filename.substr(0, filename.length-1));
+        if(stats) {
+            let increment = parseInt(filename.charAt(filename.length-1))+1;
+            filename = filename.substr(0, filename.length-1) + increment;
+        }
+    });
+    callback(null, filename + path.extname(file.originalname));
   }
 })
 var upload = multer({ storage: storage });
+
 
 /*
  * Sets up database
@@ -216,9 +226,10 @@ app.post("/dnca", function(req, res, next) {
 /**
  * Handles image submission
  */
-app.post("/api/images", upload.array('image'), function(req, res, next) {
+app.post("/api/images", upload.array('image', 5), function(req, res, next) {
     console.log(req.files);
     var hasError = false;
+    var fileUrls = [];
     req.files.forEach(function(file) {
         req.app.get("dbClient").query(
 
@@ -228,13 +239,14 @@ app.post("/api/images", upload.array('image'), function(req, res, next) {
                 hasError = err;
             }
         );
+        fileUrls.push(file.filename);
     });
     if (hasError) {
         console.log("DB operation failed: " + err);
         res.status(400).send(err);
     } else {
         console.log("Successfully added image!");
-        res.status(200).send("Image sent!");
+        res.status(200).send(fileUrls);
     }
 });
 

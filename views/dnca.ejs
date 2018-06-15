@@ -506,6 +506,22 @@
                 </tr>
             </table>
         </div>
+        <br>
+
+        <!-- CASE STORIES -->
+        <div class="table-info">
+            <p>
+                <strong>VII. CASE STORIES</strong>
+            </p>
+            <br>
+            <table id="case-stories">
+                <tr>
+                    <% dnca.info.caseStories.images.forEach(function(image) {  %>   
+                            <td><img src=<%= image %>></td>
+                    <% }); %>
+                </tr>
+            </table>
+        </div>
     </div>    
 </body>
 </html>

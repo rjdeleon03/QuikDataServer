@@ -58,3 +58,8 @@ table {
 #infra-damage .check {
     text-align: center;
 }
+
+tr img {
+    display: block;
+    margin: auto;
+}
