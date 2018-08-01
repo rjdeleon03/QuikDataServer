@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
     
     <!-- TODO: Must use host of server (constant) -->
-    <link rel="stylesheet" type="text/css" href="http://localhost:3000/dnca/stylesheets/form.css"> 
+    <link rel="stylesheet" type="text/css" href="http://localhost:3000/api/dnca/stylesheets/form.css"> 
 </head>
 <body>
     <div class="main">
@@ -23,7 +23,7 @@
             assessment. Methodologies that can be used are: interviews with community members, FGDs, KIIs, information gathering, and field observations.
         </p>
         <br>
-        <p>
+        <!-- <p>
             <strong>REMINDER</strong>
             <ul>
                 <li>
@@ -45,483 +45,106 @@
                     Thank the respondents for their responses and participation.
                 </li>
             </ul>
-        </p>
+        </p> -->
         <br>
-        <div id="area-info">
-            <table>
-                <tr>
-                    <td>Name of Organization:</td>
-                    <td><%= dnca.info.formInfo.orgName %></td>
-                    <td>Date of Assessment:</td>
-                    <td>
-                        <%= dnca.info.formInfo.assessmentDate.year %>/<%= dnca.info.formInfo.assessmentDate.month + 1%>/<%= dnca.info.formInfo.assessmentDate.dayOfMonth %>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Sitio/Purok/Zone:</td>
-                    <td><%= dnca.info.formInfo.sitio %></td>
-                    <td>Barangay:</td>
-                    <td><%= dnca.info.formInfo.barangay %></td>
-                </tr>
-                <tr>
-                    <td>Municipality/City:</td>
-                    <td><%= dnca.info.formInfo.city %></td>
-                    <td>Province:</td>
-                    <td><%= dnca.info.formInfo.province %></td>
-                </tr>
-                <tr>
-                    <td>Name of Interviewer:</td>
-                    <td><%= dnca.info.formInfo.interviewer %></td>
-                    <td>Contact Number:</td>
-                    <td><%= dnca.info.formInfo.interviewerNo %></td>
-                </tr>
-            </table>
-        </div>
-        <br>
-
-        <!-- GENERAL INFORMATION -->
-        <div class="table-info">
-            <p>
-                <strong>I. GENERAL INFORMATION</strong>
-            </p>
-            <br>
-            <p>
-                <strong>Description of the Calamity</strong>
-            </p>
-            <table id="calamity">
-                <tr>
-                    <td>Type of Calamity:</td>
-                    <td><%= dnca.info.genInfo.calamityDesc.calamityType %></td>
-                </tr>
-                <tr>
-                    <td>Date of Occurrence:</td>                    
-                    <td><%= dnca.info.genInfo.calamityDesc.dateOccurred.year %>/<%= dnca.info.genInfo.calamityDesc.dateOccurred.month + 1%>/<%= dnca.info.genInfo.calamityDesc.dateOccurred.dayOfMonth %></td>
-                </tr>
-                <tr>
-                    <td>Description of the Event:</td>
-                    <td><%= dnca.info.genInfo.calamityDesc.description %></td>
-                </tr>
-            </table>
-            <br>
-
-            <p>
-                <strong>Brief Description of the Affected Area</strong>
-            </p>
-            <div class="single-box">
-                <em>Accessibility, safety, cultural context, religion, availability of markets, etc.</em>
-                <div class="text">
-                    <%= dnca.info.genInfo.affectedAreaDesc %>
-                </div>
+            <!-- FORM DETAILS -->
+            <div id="area-info">
+                <table>
+                    <tr>
+                        <td><%= dnca.info.prefilledData.orgName.question %></td>
+                        <td><%= dnca.info.prefilledData.orgName.value %></td>
+                        <td><%= dnca.info.formDetails.assessmentDate.question %></td>
+                        <td><%= dnca.info.formDetails.assessmentDate.year%>/<%= dnca.info.formDetails.assessmentDate.month%>/<%= dnca.info.formDetails.assessmentDate.dayOfMonth%></td>
+                    </tr>
+                    <tr>
+                        <td><%= dnca.info.prefilledData.sitio.question %></td>
+                        <td><%= dnca.info.prefilledData.sitio.value %></td>
+                        <td><%= dnca.info.prefilledData.barangay.question %></td>
+                        <td><%= dnca.info.prefilledData.barangay.value %></td>
+                    </tr>
+                    <tr>
+                        <td><%= dnca.info.prefilledData.city.question %></td>
+                        <td><%= dnca.info.prefilledData.city.value %></td>
+                        <td><%= dnca.info.prefilledData.province.question %></td>
+                        <td><%= dnca.info.prefilledData.province.value %></td>
+                    </tr>
+                    <tr>
+                        <td><%= dnca.info.formDetails.interviewer.question %></td>
+                        <td><%= dnca.info.formDetails.interviewer.value %></td>
+                        <td><%= dnca.info.formDetails.interviewerNo.question %></td>
+                        <td><%= dnca.info.formDetails.interviewerNo.value %></td>
+                    </tr>
+                    <tr>
+                        <td><%= dnca.info.formDetails.infoSources.question %></td>
+                        <td><%= dnca.info.formDetails.infoSources.value %></td>
+                    </tr>
+                </table>
             </div>
             <br>
             
-            <!-- POPULATION DATA -->
-            <p>
-                <strong>Population Data</strong>
-            </p>            
-            <table id="population-data">
-                <tr>
-                    <th rowspan=2>Age</th>
-                    <th colspan=2>Total Population (Baseline)</th>
-                    <th colspan=2>Affected Population</th>
-                    <th colspan=2>Displaced Population</th>
-                </tr>
-                <tr>
-                    <td>Male</td>
-                    <td>Female</td>
-                    <td>Male</td>
-                    <td>Female</td>
-                    <td>Male</td>
-                    <td>Female</td>
-                </tr>
-                <% dnca.info.genInfo.populationData.populationDataRows.forEach(function(row) { %>                    
+            <div class="table-info">
+                <p>
+                    <strong>I. BASELINE DATA</strong>
+                </p>
+                <!-- Total Population -->
+                <p>
+                    <strong>Total Population</strong>
+                </p>            
+                <table id="total-population">
                     <tr>
-                        <td><%= row.type %></td>
-                        <td><%= row.total.male %></td>
-                        <td><%= row.total.female %></td>
-                        <td><%= row.affected.male %></td>
-                        <td><%= row.affected.female %></td>
-                        <td><%= row.displaced.male %></td>
-                        <td><%= row.displaced.female %></td>
-                    </tr>
-                <% }) %>         
-                <tr>
-                    <td><%= dnca.info.genInfo.populationData.totalRow.type %></td>
-                    <td><%= dnca.info.genInfo.populationData.totalRow.total.male %></td>
-                    <td><%= dnca.info.genInfo.populationData.totalRow.total.female %></td>
-                    <td><%= dnca.info.genInfo.populationData.totalRow.affected.male %></td>
-                    <td><%= dnca.info.genInfo.populationData.totalRow.affected.female %></td>
-                    <td><%= dnca.info.genInfo.populationData.totalRow.displaced.male %></td>
-                    <td><%= dnca.info.genInfo.populationData.totalRow.displaced.female %></td>
-                </tr>
-            </table>
-            <br>
-            
-            <!-- FAMILY AND HOUSEHOLD DATA -->
-            <p>
-                <strong>Family and Household Data</strong>
-            </p>       
-            <table id="family-data">
-                <tr>
-                    <th></th>
-                    <th>Total Population (Baseline)</th>
-                    <th>Number of Affected</th>
-                    <th>Number of Displaced</th>
-                </tr>
-                <tr>
-                    <td>Families</td>
-                    <td><%= dnca.info.genInfo.familyData.totalFamilies %></td>
-                    <td><%= dnca.info.genInfo.familyData.affectedFamilies %></td>
-                    <td><%= dnca.info.genInfo.familyData.displacedFamilies %></td>
-                </tr>
-                <tr>
-                    <td>Households</td>
-                    <td><%= dnca.info.genInfo.familyData.totalHouseholds %></td>
-                    <td><%= dnca.info.genInfo.familyData.affectedHouseholds %></td>
-                    <td><%= dnca.info.genInfo.familyData.displacedHouseholds %></td>
-                </tr>
-            </table>
-            <br>
-
-            <!-- VULNERABLE POPULATION -->
-            <p>
-                <strong>Number of Vulnerable Population</strong>
-            </p>  
-            <table id="vulnerable">
-                <tr>
-                    <th rowspan=2>Age</th>
-                    <th rowspan=2>Pregnant</th>
-                    <th rowspan=2>Lactating Mothers</th>
-                    <th rowspan=2>LGBT</th>
-                    <th rowspan=2>Female-headed Households</th>
-                    <th colspan=2>Child-headed Households</th>
-                    <th colspan=2>Indigenous People</th>
-                    <th colspan=2>Persons with Disabilities</th>
-                    <th rowspan=2>Remarks</th>
-                </tr>
-                <tr>
-                    <th>M</th>
-                    <th>F</th>
-                    <th>M</th>
-                    <th>F</th>
-                    <th>M</th>
-                    <th>F</th>
-                </tr>
-                <% dnca.info.genInfo.vulnerablePopulationData.vulnerablePopulationDataRows.forEach(function(row) { %>
-                    <tr>
-                        <td><%= row.type %></td>
-                        <td><%= row.pregnant %></td>
-                        <td><%= row.lactating %></td>
-                        <td><%= row.lgbt %></td>
-                        <td><%= row.femaleHeadedHouseholds %></td>
-                        <td><%= row.childHeadedHouseholds.male %></td>
-                        <td><%= row.childHeadedHouseholds.female %></td>
-                        <td><%= row.indigenous.male %></td>
-                        <td><%= row.indigenous.female %></td>
-                        <td><%= row.disabled.male %></td>
-                        <td><%= row.disabled.female %></td>
-                        <td><%= row.remarks %></td>
-                    </tr>
-                <% }); %>
-                <tr>
-                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.type %></td>
-                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.pregnant %></td>
-                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.lactating %></td>
-                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.lgbt %></td>
-                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.femaleHeadedHouseholds %></td>
-                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.childHeadedHouseholds.male %></td>
-                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.childHeadedHouseholds.female %></td>
-                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.indigenous.male %></td>
-                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.indigenous.female %></td>
-                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.disabled.male %></td>
-                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.disabled.female %></td>
-                    <td><%= dnca.info.genInfo.vulnerablePopulationData.totalRow.remarks %></td>
-                </tr>
-            </table>
-            <br>
-
-            <!-- CASUALTIES -->
-            <p>
-                <strong>Number of Casualties</strong>
-            </p>  
-            <table id="casualties">
-                <tr>
-                    <th rowspan=2>Age</th>
-                    <th colspan=2>Dead</th>
-                    <th colspan=2>Missing</th>
-                    <th colspan=2>Injured</th>
-                    <tr>
-                        <th>Male</th>
-                        <th>Female</th>
-                        <th>Male</th>
-                        <th>Female</th>
+                        <th>Age</th>
                         <th>Male</th>
                         <th>Female</th>
                     </tr>
-                </tr>
-                <% dnca.info.genInfo.casualtiesData.casualtiesDataRows.forEach(function(row) { %>
-                    <tr>                        
-                        <td><%= row.type %></td>
-                        <td><%= row.dead.male %></td>
-                        <td><%= row.dead.female %></td>
-                        <td><%= row.missing.male %></td>
-                        <td><%= row.missing.female %></td>
-                        <td><%= row.injured.male %></td>
-                        <td><%= row.injured.female %></td>
-                    </tr>
-                <% }); %>  
-                <tr>
-                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.type %></td>
-                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.dead.male %></td>
-                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.dead.female %></td>
-                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.missing.male %></td>
-                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.missing.female %></td>
-                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.injured.male %></td>
-                    <td><%= dnca.info.genInfo.casualtiesData.totalRow.injured.female %></td>
-                </tr>
-            </table>
-            <br>
+                    <% dnca.info.prefilledData.population.forEach(function(row) { %>                    
+                        <tr>
+                            <td><%= row.count.question %></td>
+                            <td><%= row.count.male %></td>
+                            <td><%= row.count.female %></td>
+                        </tr>
+                    <% }) %> 
+                </table>
+                <br>
 
-            <!-- CAUSE OF DEATH -->
-            <p>
-                <strong>Cause of Death</strong>
-            </p> 
-            <table id="cause-of-death">
-                <tr>
-                    <th colspan=2>Age and Gender</th>
-                    <th>Measles</th>
-                    <th>Diarrhea</th>
-                    <th>Pneumonia</th>
-                    <th>Dengue</th>
-                    <th>Drowning</th>
-                    <th>Heart Attack</th>
-                    <th>Electrocution</th>
-                    <th>Collapsed Building</th>
-                    <th>Others</th>
-                </tr>
-                <% dnca.info.genInfo.deathCauseData.deathCauseDataRows.forEach(function(row) { %>
+                <!-- Total Population -->
+                <p>
+                    <strong>Total Population</strong>
+                </p>            
+                <table id="total-population">
                     <tr>
-                        <td rowspan=2><%= row.type %></td>
-                        <td>M</td>
-                        <td><%= row.measles.male %></td>
-                        <td><%= row.diarrhea.male %></td>
-                        <td><%= row.pneumonia.male %></td>
-                        <td><%= row.dengue.male %></td>
-                        <td><%= row.drowning.male %></td>
-                        <td><%= row.heartAttack.male %></td>
-                        <td><%= row.electrocution.male %></td>
-                        <td><%= row.collapsedBuilding.male %></td>
-                        <td><%= row.others.male %></td>
+                        <th></th>
+                        <th>Number</th>
+                    </tr>               
+                    <tr>
+                        <td><%= dnca.info.prefilledData.familyCount.question %></td>
+                        <td><%= dnca.info.prefilledData.familyCount.value %></td>
+                    </tr>           
+                    <tr>
+                        <td><%= dnca.info.prefilledData.householdsCount.question %></td>
+                        <td><%= dnca.info.prefilledData.householdsCount.value %></td>
                     </tr>
-                    <tr>                        
-                        <td>F</td>
-                        <td><%= row.measles.female %></td>
-                        <td><%= row.diarrhea.female %></td>
-                        <td><%= row.pneumonia.female %></td>
-                        <td><%= row.dengue.female %></td>
-                        <td><%= row.drowning.female %></td>
-                        <td><%= row.heartAttack.female %></td>
-                        <td><%= row.electrocution.female %></td>
-                        <td><%= row.collapsedBuilding.female %></td>
-                        <td><%= row.others.female %></td>
-                    </tr>
-                <% }); %>
-            </table>
-            <br>
+                </table>
+                <br>
 
-            <!-- DAMAGE TO INFRASTRUCTURES -->
-            <p>
-                <strong>Damage to Infrastructures</strong>
-            </p> 
-            <table id="infra-damage">
-                <tr>
-                    <th rowspan=2>Infrastructure</th>
-                    <th rowspan=2>Number of Infrastructure</th>
-                    <th colspan=2>Status</th>
-                    <th rowspan=2>Remarks</th>
-                </tr>
-                <tr>
-                    <th>Functional</th>
-                    <th>Non-functional</th>
-                </tr>
-                <% dnca.info.genInfo.infrastructureDamageData.infrastructureDamageDataRows.forEach(function(row) { %>
+                <!-- Total Population -->
+                <p>
+                    <strong>Total Population</strong>
+                </p>            
+                <table id="total-population">
                     <tr>
-                        <td><%= row.type %></td>
-                        <td><%= row.damaged %></td>
-                        <% if (row.isFunctional === true) { %>
-                            <td class="check">X</td>
-                            <td class="check"></td>
-                        <% } else { %>
-                            <td class="check"></td>
-                            <td class="check">X</td>
-                        <% } %>
-                        <td><%= row.remarks %></td>
+                        <th>House Type</th>
+                        <th>Number</th>
                     </tr>
-                <% }); %>
-            </table>
-        </div>
+                    <% dnca.info.prefilledData.houses.forEach(function(row) { %>                    
+                        <tr>
+                            <td><%= row.count.question %></td>
+                            <td><%= row.count.value %></td>
+                        </tr>
+                    <% }) %> 
+                </table>
+                <br>
+            </div>
         <br>
-
-        <!-- SHELTER AND NON-FOOD ITEMS -->
-        <div class="table-info">
-            <p>
-                <strong>II. SHELTER AND NON-FOOD ITEMS</strong>
-            </p>
-            <br>
-            <p>
-                <strong>Damage to Houses</strong>
-            </p>
-            <table id="house-damage">
-                <tr>
-                    <th rowspan="2">Type of Houses</th>
-                    <th rowspan="2">Number of Houses</th>
-                    <th colspan="3">House Ownership</th>
-                    <th colspan="3">Land Ownership</th>
-                    <th rowspan="2">How many are informal settler families?</th>
-                    <th rowspan="2">Number of Partially Damaged Houses (can still be repaired)</th>
-                    <th rowspan="2">Number of Totally Damaged Houses</th>
-                    <th rowspan="2">Total number of Damaged Houses</th>
-                </tr>
-                <tr>
-                    <th>How many HH own their property?</th>
-                    <th>How many HH are in rented property?</th>
-                    <th>How many HH are in shared property? (nakikitira)</th>
-                    <th>Owned</th>
-                    <th>Rented</th>
-                    <th>Tenant</th>
-                </tr>           
-
-                <% dnca.info.shelterInfo.houseDamageData.shelterHouseDamageDataRows.forEach(function(row) { %>                    
-                    <tr>
-                        <td><%= row.type %></td>
-                        <td><%= row.houseCount %></td>
-                        <td><%= row.ownedLand %></td>
-                        <td><%= row.rentedLand %></td>
-                        <td><%= row.tenantLand %></td>
-                        <td><%= row.ownedHouse %></td>
-                        <td><%= row.rentedHouse %></td>
-                        <td><%= row.sharedHouse %></td>
-                        <td><%= row.informalSettlers %></td>
-                        <td><%= row.partiallyDamaged %></td>
-                        <td><%= row.totallyDamaged %></td>
-                        <td><%= row.allDamaged %></td>
-                    </tr>
-                <% }) %>   
-
-                <tr>
-                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.type %></td>
-                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.houseCount %></td>
-                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.ownedLand %></td>
-                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.rentedLand %></td>
-                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.tenantLand %></td>
-                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.ownedHouse %></td>
-                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.rentedHouse %></td>
-                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.sharedHouse %></td>
-                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.informalSettlers %></td>
-                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.partiallyDamaged %></td>
-                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.totallyDamaged %></td>
-                    <td><%= dnca.info.shelterInfo.houseDamageData.totalRow.allDamaged %></td>
-                </tr>
-            </table>
-            <br>
-
-            <p>
-                <strong>Coping</strong>
-            </p>
-            <table id="shelter-coping">
-                <tr>
-                    <td>Where are the displaced families staying?</td>
-                    <td><%= dnca.info.shelterInfo.copingData.evacuationSitesLocation %></td>
-                </tr>
-                <tr>
-                    <td>How will they get their homes back to reasonable standard of living?</td>
-                    <td><%= dnca.info.shelterInfo.copingData.howToCope %></td>
-                </tr>
-                <tr>
-                    <td>WWhen can they return home?</td>
-                    <td><%= dnca.info.shelterInfo.copingData.whenToGoHome %></td>
-                </tr>
-                <tr>
-                    <td>What will they do if they cannot return home?</td>
-                    <td><%= dnca.info.shelterInfo.copingData.whatIfCantGoHome %></td>
-                </tr>
-            </table>
-            <br>
-
-            <p>
-                <strong>Gaps</strong>
-            </p>
-            <table id="shelter-needs">
-                <tr>
-                    <th>Materials</th>
-                    <th>Identify Specific Items</th>
-                    <th>Number of Families in Need</th>
-                </tr>
-                
-                <% dnca.info.shelterInfo.needsData.shelterNeedsDataRows.forEach(function(row) { %>                    
-                    <tr>
-                        <td><%= row.type %></td>
-                        <td><%= row.items %></td>
-                        <td><%= row.familyCount %></td>
-                    </tr>
-                <% }) %>
-            </table>
-            <br>
-
-            <p>
-                <strong>Gaps</strong>
-            </p>
-            <table id="shelter-gaps">
-                <tr>
-                    <td>Are there any separate cubicles and/or partitions for male and female with the assistance provided?</td>
-                    <td><%= dnca.info.shelterInfo.gapsData.hasSeparateCubicles %></td>
-                </tr>
-                <tr>
-                    <td>Is the given assistance appropriate to their cultural practices?</td>
-                    <td><%= dnca.info.shelterInfo.gapsData.isAssistanceCulturallyAppropriate %></td>
-                </tr>
-                <tr>
-                    <td>Is the construction of shelter appropriate for its location and size of the family as beneficiaries?</td>
-                    <td><%= dnca.info.shelterInfo.gapsData.isShelterAppropriate %></td>
-                </tr>
-                <tr>
-                    <td>Does it have access to basic services and economic activities?</td>
-                    <td><%= dnca.info.shelterInfo.gapsData.hasAccessToBasicServices %></td>
-                </tr>
-                <tr>
-                    <td>Are there any able-bodied in the family/community who can participate in resource mobilization, construction of the shelter?</td>
-                    <td><%= dnca.info.shelterInfo.gapsData.hasAbleBodiedMember %></td>
-                </tr>
-                <tr>
-                    <td>Is there a referral pathway for incidents of Gender Based Violence (GBV)?</td>
-                    <td><%= dnca.info.shelterInfo.gapsData.hasReferralPathwayForGbv %></td>
-                </tr>
-                <tr>
-                    <td>Are there GBV protection services available?</td>
-                    <td><%= dnca.info.shelterInfo.gapsData.hasGbvProtectionServices %></td>
-                </tr>
-                <tr>
-                    <td>Is there GBV protection focal point?</td>
-                    <td><%= dnca.info.shelterInfo.gapsData.hasGbvProtectionFocalPoint %></td>
-                </tr>
-            </table>
-        </div>
-        <br>
-
-        <!-- CASE STORIES -->
-        <div class="table-info">
-            <p>
-                <strong>VII. CASE STORIES</strong>
-            </p>
-            <br>
-            <table id="case-stories">
-                <tr>
-                    <% dnca.info.caseStories.images.forEach(function(image) {  %>   
-                            <td><img src=<%= image %>></td>
-                    <% }); %>
-                </tr>
-            </table>
-        </div>
     </div>    
 </body>
 </html>

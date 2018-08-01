@@ -165,6 +165,26 @@ app.get("/api/dnca/:id", function(req, res, next) {
 });
 
 /**
+ * Handles viewing of individual DNCA forms contents
+ * For debug use only - Remove when deploying
+ */
+app.get("/api/dnca/:id/debug", function(req, res, next) {
+    req.app.get("dbClient").query(
+        "SELECT * FROM dnca WHERE ID=$1", [req.params.id],
+        function(err, result) {
+            if (err) {
+                console.log("DB operation failed: " + err);
+                res.status(400).send(err);
+            } else {
+                console.log("Successfully retrieved DNCA form!");
+                console.log(result.rows);
+                res.status(200).send(result.rows[0].info);
+            }
+        }
+    );
+});
+
+/**
  * Serves CSS files
  */
 app.get("/api/dnca/stylesheets/:css_id", function(req, res, next) {
