@@ -54,7 +54,7 @@
                         <td><%= dnca.info.prefilledData.orgName.question %></td>
                         <td><%= dnca.info.prefilledData.orgName.value %></td>
                         <td><%= dnca.info.formDetails.assessmentDate.question %></td>
-                        <td><%= dnca.info.formDetails.assessmentDate.year%>/<%= dnca.info.formDetails.assessmentDate.month%>/<%= dnca.info.formDetails.assessmentDate.dayOfMonth%></td>
+                        <td><%= dnca.info.formDetails.assessmentDate.year%>/<%= dnca.info.formDetails.assessmentDate.month+1%>/<%= dnca.info.formDetails.assessmentDate.dayOfMonth%></td>
                     </tr>
                     <tr>
                         <td><%= dnca.info.prefilledData.sitio.question %></td>
@@ -82,6 +82,7 @@
             </div>
             <br>
             
+            <!-- BASELINE DATA -->
             <div class="table-info">
                 <p>
                     <strong>I. BASELINE DATA</strong>
@@ -143,6 +144,243 @@
                     <% }) %> 
                 </table>
                 <br>
+            </div>
+
+            <!-- GENERAL INFORMATION -->
+            <div class="table-info">
+                <p>
+                    <strong>II. GENERAL INFORMATION</strong>
+                </p>
+
+                <!-- CALAMITY DETAILS -->
+                <div>
+                    <p>
+                        <strong>Calamity and Area Details</strong>
+                    </p>
+                    <% var calamityDetails = dnca.info.generalInformation.calamityDetails %>
+                    <table id="calamity">
+                        <tr>
+                            <td><%= calamityDetails.dateFields[0].question %>:</td>
+                            <td><%= calamityDetails.dateFields[0].year %>/<%= calamityDetails.dateFields[0].month+1 %>/<%= calamityDetails.dateFields[0].dayOfMonth %></td>
+                        </tr>
+                        <% calamityDetails.stringFields.forEach(function(row){ %>
+                        <tr>
+                            <td><%= row.question %>:</td>
+                            <td><%= row.value %></td>
+                        </tr>
+                        <% }); %>
+                    </table>
+                    <br>
+                </div>
+
+                <!-- POPULATION DATA -->
+                <div>
+                    <p>
+                        <strong>Population Data</strong>
+                    </p>  
+                    <% var populationData = dnca.info.generalInformation.populationData %>          
+                    <table id="population-data">
+                        <tr>
+                            <th rowspan=2>Age</th>
+                            <th colspan=2>Affected</th>
+                            <th colspan=2>Displaced</th>
+                        </tr>
+                        <tr>
+                            <td>Male</td>
+                            <td>Female</td>
+                            <td>Male</td>
+                            <td>Female</td>
+                        </tr>
+                        <% populationData.rows.forEach(function(row) { %>                    
+                            <tr>
+                                <td><%= row.ageGroup %></td>
+                                <% row.genderTupleFields.forEach(function(gtRow) { %>  
+                                    <td><%= gtRow.male %></td>
+                                    <td><%= gtRow.female %></td>
+                                <% }) %> 
+                            </tr>
+                        <% }) %>  
+                    </table>
+                    <br>
+                </div>
+
+                <!-- FAMILY AND HOUSEHOLD DATA -->
+                <div>
+                    <p>
+                        <strong>Family and Household Data</strong>
+                    </p>  
+                    <% var familyDetails = dnca.info.generalInformation.familyDetails %>          
+                    <table id="family-data">
+                        <tr>
+                            <th></th>
+                            <th>Affected</th>
+                            <th>Displaced</th>
+                        </tr>
+                        <tr>
+                            <td>Families</td>
+                            <td><%= familyDetails.numberFields[0].value %></td>
+                            <td><%= familyDetails.numberFields[2].value %></td>
+                        </tr>
+                        <tr>
+                            <td>Households</td>
+                            <td><%= familyDetails.numberFields[1].value %></td>
+                            <td><%= familyDetails.numberFields[3].value %></td>
+                        </tr>
+                    </table>
+                    <br>
+                </div>
+
+                <!-- VULNERABLE POPULATION -->
+                <div>
+                    <p>
+                        <strong>Vulnerable Population</strong>
+                    </p>  
+                    <% var vulnerableData = dnca.info.generalInformation.vulnerableData %>          
+                    <table id="vulnerable-data">
+                        <tr>
+                            <th rowspan=2>Age</th>
+                            <th rowspan=2>Pregnant</th>
+                            <th rowspan=2>Lactating Mothers</th>
+                            <th rowspan=2>LGBT</th>
+                            <th rowspan=2>Female-headed Households</th>
+                            <th colspan=2>Child-headed Households</th>
+                            <th colspan=2>Indigenous People</th>
+                            <th colspan=2>Persons with Disabilities</th>
+                            <th rowspan=2>Remarks</th>
+                        </tr>
+                        <tr>
+                            <td>Male</td>
+                            <td>Female</td> 
+                            <td>Male</td>
+                            <td>Female</td> 
+                            <td>Male</td>
+                            <td>Female</td> 
+                        </tr>
+                        <% vulnerableData.rows.forEach(function(row) { %>                    
+                            <tr>
+                                <td><%= row.ageGroup %></td>
+                                <% row.numberFields.forEach(function(nRow) { %>  
+                                    <td><%= nRow.value %></td>
+                                <% }) %> 
+                                <% row.genderTupleFields.forEach(function(gtRow) { %>  
+                                    <td><%= gtRow.male %></td>
+                                    <td><%= gtRow.female %></td>
+                                <% }) %> 
+                                <% row.stringFields.forEach(function(sRow) { %>  
+                                    <td><%= sRow.value %></td>
+                                <% }) %> 
+                            </tr>
+                        <% }) %>  
+                    </table>
+                    <br>
+                </div>
+
+                <!-- CASUALTIES DATA -->
+                <div>
+                    <p>
+                        <strong>Casualties</strong>
+                    </p>  
+                    <% var casualtiesData = dnca.info.generalInformation.casualtiesData %>          
+                    <table id="casualties-data">
+                        <tr>
+                            <th rowspan=2>Age</th>
+                            <th colspan=2>Dead</th>
+                            <th colspan=2>Missing</th>
+                            <th colspan=2>Injured</th>
+                        </tr>
+                        <tr>
+                            <td>Male</td>
+                            <td>Female</td>
+                            <td>Male</td>
+                            <td>Female</td>
+                            <td>Male</td>
+                            <td>Female</td>
+                        </tr>
+                        <% casualtiesData.rows.forEach(function(row) { %>                    
+                            <tr>
+                                <td><%= row.ageGroup %></td>
+                                <% row.genderTupleFields.forEach(function(gtRow) { %>  
+                                    <td><%= gtRow.male %></td>
+                                    <td><%= gtRow.female %></td>
+                                <% }) %> 
+                            </tr>
+                        <% }) %>  
+                    </table>
+                    <br>
+                </div>
+
+                <!-- DEATH CAUSE DATA -->
+                <div>
+                    <p>
+                        <strong>Causes of Death</strong>
+                    </p>  
+                    <% var deathCauseData = dnca.info.generalInformation.deathCauseData %>          
+                    <table id="death-cause-data">
+                        <tr>
+                            <th colspan="2">Age</th>
+                            <% deathCauseData.rows[0].genderTupleFields.forEach(function(gtRow) { %>  
+                                <th><%= gtRow.question %></th>
+                            <% }) %> 
+                        </tr>
+                        <% deathCauseData.rows.forEach(function(row) { %>                    
+                            <tr>
+                                <td rowspan="2"><%= row.ageGroup %></td>
+                                <td>M</td>
+                                <% row.genderTupleFields.forEach(function(gtRow) { %>  
+                                    <td><%= gtRow.male %></td>
+                                <% }) %> 
+                            </tr>         
+                            <tr>
+                                <td>F</td>
+                                <% row.genderTupleFields.forEach(function(gtRow) { %>  
+                                    <td><%= gtRow.female %></td>
+                                <% }) %> 
+                            </tr>
+                        <% }) %>  
+                    </table>
+                    <br>
+                </div>                
+
+                <!-- INFRASTRUCTURE DAMAGE DATA -->
+                <div>
+                    <p>
+                        <strong>Damage to Infrastructure</strong>
+                    </p>  
+                    <% var infrastructureData = dnca.info.generalInformation.infrastructureData %>          
+                    <table id="casualties-data">
+                        <tr>
+                            <th rowspan=2>Infrastructure</th>
+                            <th rowspan=2>Number of Infrastructure</th>
+                            <th colspan=2>Status</th>
+                            <th rowspan=2>Remarks</th>
+                        </tr>
+                        <tr>
+                            <th>Functional</th>
+                            <th>Non-functional</th>
+                        </tr>
+                        <% infrastructureData.rows.forEach(function(row) { %>                    
+                            <tr>
+                                <td><%= row.infraType %></td>
+                                <% row.numberFields.forEach(function(nRow) { %>  
+                                    <td><%= nRow.value %></td>
+                                <% }) %> 
+                                <% row.boolFields.forEach(function(bRow) { %>  
+                                    <% if (bRow.value === true) { %>
+                                        <td class="check">X</td>
+                                        <td class="check"></td>
+                                    <% } else { %>
+                                        <td class="check"></td>
+                                        <td class="check">X</td>
+                                    <% } %>
+                                <% }) %> 
+                                <% row.stringFields.forEach(function(sRow) { %>  
+                                    <td><%= sRow.value %></td>
+                                <% }) %> 
+                            </tr>
+                        <% }) %>  
+                    </table>
+                    <br>
+                </div>
             </div>
         <br>
     </div>    
