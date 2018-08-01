@@ -58,11 +58,22 @@ const client = new Client({
 client.connect();
 
 /**
+ * Sets up extension for id generation
+ */
+client.query(`
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`,
+    function(err, result) {
+        if (err) console.log("Error while creating extension!");
+        else console.log("Extension created!");
+    }
+);
+
+/**
  * Creates DNCA form table
  */
 client.query(`
     CREATE TABLE IF NOT EXISTS dnca (
-        ID serial NOT NULL PRIMARY KEY,
+        id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
         info json NOT NULL
     );`, dbTableCreationCallback
 );
@@ -70,24 +81,24 @@ client.query(`
 /**
  * Creates image table
  */
-client.query(`
-    CREATE TABLE IF NOT EXISTS dnca_image (
-        ID serial NOT NULL PRIMARY KEY,
-        dnca_id int references dnca(ID),
-        url varchar(255) NOT NULL
-    );`, dbTableCreationCallback
-);
+// client.query(`
+//     CREATE TABLE IF NOT EXISTS dnca_image (
+//         ID serial NOT NULL PRIMARY KEY,
+//         dnca_id int references dnca(ID),
+//         url varchar(255) NOT NULL
+//     );`, dbTableCreationCallback
+// );
 
 /**
  * Creates image table (TEST only)
  */
-client.query(`
-    CREATE TABLE IF NOT EXISTS dnca_image_test (
-        ID serial NOT NULL PRIMARY KEY,
-        dnca_id int,
-        url varchar(255) NOT NULL
-    );`, dbTableCreationCallback
-);
+// client.query(`
+//     CREATE TABLE IF NOT EXISTS dnca_image_test (
+//         ID serial NOT NULL PRIMARY KEY,
+//         dnca_id int,
+//         url varchar(255) NOT NULL
+//     );`, dbTableCreationCallback
+// );
 
 /**
  * Callback for DB table creation
@@ -107,7 +118,7 @@ app.set("dbClient", client);
 /**
  * Handles routes
  */
-app.get("/dnca", function(req, res, next){
+app.get("/api/dnca", function(req, res, next){
     req.app.get("dbClient").query(
         `
             SELECT id, 
@@ -134,7 +145,7 @@ app.get("/dnca", function(req, res, next){
 /**
  * Handles viewing of individual DNCA forms
  */
-app.get("/dnca/:id", function(req, res, next) {
+app.get("/api/dnca/:id", function(req, res, next) {
     req.app.get("dbClient").query(
         "SELECT * FROM dnca WHERE ID=$1", [req.params.id],
         function(err, result) {
@@ -156,7 +167,7 @@ app.get("/dnca/:id", function(req, res, next) {
 /**
  * Serves CSS files
  */
-app.get("/dnca/stylesheets/:css_id", function(req, res, next) {
+app.get("/api/dnca/stylesheets/:css_id", function(req, res, next) {
     res.writeHead(200, {'Content-type' : 'text/css'});
     var fileContents = fs.readFileSync('./public/stylesheets/' + req.params.css_id, {encoding: 'utf8'});
     res.write(fileContents);
@@ -166,7 +177,7 @@ app.get("/dnca/stylesheets/:css_id", function(req, res, next) {
 /**
  * Handles downloading of DNCA form
  */
-app.get("/dnca/:id/download", function(req, res, next) {
+app.get("/api/dnca/:id/download", function(req, res, next) {
     req.app.get("dbClient").query(
         "SELECT * FROM dnca WHERE ID=$1", [req.params.id],
         function(err, result) {
@@ -206,7 +217,7 @@ app.get("/dnca/:id/download", function(req, res, next) {
 /**
  * Handles DNCA form submission
  */
-app.post("/dnca", function(req, res, next) {
+app.post("/api/dnca", function(req, res, next) {
     console.log(req.body);
     req.app.get("dbClient").query(
         "INSERT INTO dnca(info) VALUES($1)", [req.body],
