@@ -1191,6 +1191,122 @@
                     <br>
                 </div>
             </div>
+
+            <!-- EVACUATION DETAILS -->
+            <div class="table-info">
+                <p>
+                    <strong>VII. SITUATION IN EVACUATION CENTERS OR TEMPORARY SHELTERS</strong>
+                </p>                     
+
+                <% dnca.info.evacuationInfoList.rows.forEach(function(row){ %>
+                <div>        
+                    <table id="evacuation-data">
+                        <!-- EVACUATION CENTER DETAILS -->
+                        <tr>
+                            <th colspan=8>Evacuation Center Details</th>
+                        </tr>
+                        <% row.evacuationCenterDetails.stringFields.forEach(function(sRow) { %>
+                            <tr>
+                                <td colspan="3"><%= sRow.question %></td>
+                                <td colspan="5"><%= sRow.value %></td>
+                            </tr>
+                        <% }); %>
+                        <% row.evacuationCenterDetails.dateFields.forEach(function(dRow) { %>
+                            <tr>
+                                <td colspan="3"><%= dRow.question %></td>
+                                <td colspan="5"><%= dRow.year %>/<%= dRow.month+1 %>/<%= dRow.dayOfMonth %></td>
+                            </tr>
+                        <% }); %>
+                        <% row.evacuationCenterDetails.multChoiceFields.forEach(function(mcRow) { %>
+                            <tr>
+                                <td colspan="3"><%= mcRow.question %></td>
+                                <td colspan="5"><%= mcRow.choices[mcRow.selected] %></td>
+                            </tr>
+                        <% }); %>
+                        <% row.evacuationCenterDetails.booleanFields.forEach(function(bRow) { %>
+                            <tr>
+                                <td colspan="3"><%= bRow.question %></td>
+                                <td colspan="5"><%= bRow.value %></td>
+                            </tr>
+                        <% }); %>
+
+                        <!-- EVACUATION POPULATION -->
+                        <tr>
+                            <th colspan=8>Breakdown on the Number of Evacuees</th>
+                        </tr>
+                        <tr>
+                            <th>Age</th>
+                            <th>Male</th>
+                            <th>Female</th>
+                            <th>LGBT</th>
+                            <th>Pregnant Women</th>
+                            <th>Lactating Mothers</th>
+                            <th>Persons with Disabilities</th>
+                            <th>Sick</th>
+                        </tr>       
+                        <% row.evacuationPopulationData.rows.forEach(function(row) { %>
+                            <tr>
+                                <td><%= row.ageGroup %></td>
+                                <% row.numberFields.forEach(function(nRow) { %>
+                                    <td><%= nRow.value %></td>
+                                <% }); %>
+                            </tr>
+                        <% }); %> 
+
+                        <!-- EVACUATION FACILITIES -->
+                        <tr>
+                            <th colspan=8>Facilities in the Temporary Shelter</th>
+                        </tr> 
+                        <% row.evacuationFacilitiesDetails.booleanStringFields.forEach(function(bsRow) { %>
+                            <tr>
+                                <td colspan="2"><%= bsRow.question %></td>
+                                <td colspan="1"><%= bsRow.value %></td>
+                                <td colspan="2"><%= bsRow.remarksQuestion %></td>
+                                <td colspan="3"><%= bsRow.remarks %></td>
+                            </tr>
+                        <% }); %>  
+
+                        <!-- EVACUATION WASH -->
+                        <tr>
+                            <th colspan=8>Water, Sanitation, and Hygiene</th>
+                        </tr> 
+                        <% row.evacuationWashDetails.booleanStringFields.forEach(function(bsRow) { %>
+                            <tr>
+                                <td colspan="2"><%= bsRow.question %></td>
+                                <td colspan="1"><%= bsRow.value %></td>
+                                <td colspan="2"><%= bsRow.remarksQuestion %></td>
+                                <td colspan="3"><%= bsRow.remarks %></td>
+                            </tr>
+                        <% }); %>   
+
+                        <!-- EVACUATION PROTECTION -->
+                        <tr>
+                            <th colspan=8>Protection and Security</th>
+                        </tr> 
+                        <% row.evacuationProtectionDetails.booleanStringFields.forEach(function(bsRow) { %>
+                            <tr>
+                                <td colspan="2"><%= bsRow.question %></td>
+                                <td colspan="1"><%= bsRow.value %></td>
+                                <td colspan="2"><%= bsRow.remarksQuestion %></td>
+                                <td colspan="3"><%= bsRow.remarks %></td>
+                            </tr>
+                        <% }); %>     
+
+                        <!-- EVACUATION COPING -->
+                        <tr>
+                            <th colspan=8>Coping Capacity</th>
+                        </tr> 
+                        <% row.evacuationCopingDetails.stringFields.forEach(function(bsRow) { %>
+                            <tr>
+                                <td colspan="3"><%= bsRow.question %></td>
+                                <td colspan="5"><%= bsRow.value %></td>
+                            </tr>
+                        <% }); %>          
+                    </table>
+                    <br>
+                </div>
+                <% }); %>
+            </div>
         <br>
     </div>    
 </body>
