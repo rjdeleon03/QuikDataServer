@@ -431,6 +431,34 @@
                     <br>
                 </div>
 
+                <!-- SHELTER NEEDS DATA -->
+                <div>                    
+                    <p>
+                        <strong>Needs</strong>
+                    </p>
+                    <% var shelterNeedsData = dnca.info.shelterInformation.shelterNeedsData %>
+                    <table id="shelter-needs-data">
+                        <tr>                                
+                            <th>Materials</th>
+                            <th>Specific Items Needed</th>
+                            <th>Number of Families in Need</th>
+                        </tr>
+
+                        <% shelterNeedsData.rows.forEach(function(row) { %>                    
+                            <tr>
+                                <td><%= row.needsType %></td>
+                                <% row.stringFields.forEach(function(sRow){ %>
+                                    <td><%= sRow.value %></td>
+                                <% }); %>
+                                <% row.numberFields.forEach(function(nRow){ %>
+                                    <td><%= nRow.value %></td>
+                                <% }); %>
+                            </tr>
+                        <% }) %> 
+                    </table>
+                    <br>
+                </div>
+
                 <!-- SHELTER COPING DETAILS -->
                 <div>                    
                     <p>
