@@ -468,7 +468,7 @@
                     <table id="shelter-coping-data">
                         <% shelterCopingDetails.stringFields.forEach(function(row){ %>
                         <tr>
-                            <td><%= row.question %>:</td>
+                            <td><%= row.question %></td>
                             <td><%= row.value %></td>
                         </tr>
                         <% }); %>
@@ -477,11 +477,13 @@
                 </div>
 
                 <!-- SHELTER ASSISTANCE DATA -->
+                <% var shelterAssistanceData = dnca.info.shelterInformation.shelterAssistanceData %>
+                <!-- <% if (shelterAssistanceData.rows.length > 0) { %> -->
+                <!-- <% } %> -->
                 <div>                    
                     <p>
                         <strong>Assistance</strong>
                     </p>
-                    <% var shelterAssistanceData = dnca.info.shelterInformation.shelterAssistanceData %>
                     <table id="shelter-assistance-data">
                         <tr>
                             <th rowspan="2">Name of Organization/Agency</th>
@@ -523,7 +525,7 @@
                     <table id="shelter-gaps-data">
                         <% shelterGapsDetails.stringFields.forEach(function(row){ %>
                         <tr>
-                            <td><%= row.question %>:</td>
+                            <td><%= row.question %></td>
                             <td><%= row.value %></td>
                         </tr>
                         <% }); %>
@@ -531,6 +533,152 @@
                     <br>
                 </div>
             </div>
+            
+            <!-- FOOD SECURITY -->
+            <div class="table-info">
+                <p>
+                    <strong>IV. FOOD SECURITY</strong>
+                </p>
+
+                <!-- FOOD SECURITY IMPACT DATA -->
+                <div>                    
+                    <p>
+                        <strong>Impact on Food Security</strong>
+                    </p>
+                    <% var foodImpactData = dnca.info.foodSecurityInformation.impactDetails %>
+                    <table id="food-impact-data">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>Remarks</th>
+                        </tr>    
+                        <% foodImpactData.booleanStringFields.forEach(function(row) { %>                    
+                            <tr>
+                                <td><%= row.question %></td>
+                                <td><%= row.value %></td>
+                                <td><%= row.remarks %></td>
+                            </tr>
+                        <% }) %>  
+                        <tr>
+                            <th></th>
+                            <th>beforeEmergency</th>
+                            <th>afterEmergency</th>
+                        </tr>          
+                        <% foodImpactData.doubleStringFields.forEach(function(row) { %>                    
+                            <tr>
+                                <td><%= row.question %></td>
+                                <td><%= row.value1 %></td>
+                                <td><%= row.value2 %></td>
+                            </tr>
+                        <% }) %>    
+                        <% foodImpactData.stringFields.forEach(function(row) { %>                    
+                            <tr>
+                                <td><%= row.question %></td>
+                                <td colspan="2"><%= row.value %></td>
+                            </tr>
+                        <% }) %> 
+                    </table>
+                    <br>
+                </div>
+
+                <!-- FOOD SECURITY COPING DETAILS -->
+                <div>                    
+                    <p>
+                        <strong>Coping</strong>
+                    </p>
+                    <% var foodCopingDetails = dnca.info.foodSecurityInformation.foodSecurityCopingDetails %>
+                    <table id="food-coping-data">
+                        <% foodCopingDetails.stringFields.forEach(function(row){ %>
+                        <tr>
+                            <td><%= row.question %></td>
+                            <td><%= row.value %></td>
+                        </tr>
+                        <% }); %>
+                    </table>
+                    <br>
+                </div>
+
+                <!-- FOOD SECURITY NEEDS DETAILS -->
+                <div>                    
+                    <p>
+                        <strong>Needs</strong>
+                    </p>
+                    <% var foodNeedsDetails = dnca.info.foodSecurityInformation.foodSecurityNeedsDetails %>
+                    <table id="food-needs-data">
+                        <% foodNeedsDetails.stringFields.forEach(function(row){ %>
+                        <tr>
+                            <td><%= row.question %></td>
+                            <td><%= row.value %></td>
+                        </tr>
+                        <% }); %>
+                        <% foodNeedsDetails.numberFields.forEach(function(row){ %>
+                        <tr>
+                            <td><%= row.question %></td>
+                            <td><%= row.value %></td>
+                        </tr>
+                        <% }); %>
+                    </table>
+                    <br>
+                </div>
+
+                <!-- FOOD SECURITY ASSISTANCE DATA -->
+                <% var foodAssistanceData = dnca.info.foodSecurityInformation.foodAssistanceData %>
+                <!-- <% if (foodAssistanceData.rows.length > 0) { %> -->
+                <!-- <% } %> -->
+                <div>                    
+                    <p>
+                        <strong>Assistance</strong>
+                    </p>
+                    <table id="food-assistance-data">
+                        <tr>
+                            <th rowspan="2">Name of Organization/Agency</th>
+                            <th rowspan="2">Type of Assistance Received</th>
+                            <th rowspan="2">Date Received</th>
+                            <th rowspan="2">Quantity/Amount</th>
+                            <th colspan="4">Beneficiaries</th>
+                        </tr>
+                        <tr>
+                            <th>Men</th>
+                            <th>Women</th>
+                            <th>Boys</th>
+                            <th>Girls</th>
+                        </tr> 
+
+                        <% foodAssistanceData.rows.forEach(function(row) { %> 
+                            <tr>
+                                <% row.stringFields.forEach(function(sRow){ %>
+                                    <td><%= sRow.value %></td>
+                                <% }); %>
+                                <% row.dateFields.forEach(function(dRow){ %>
+                                    <td><%= dRow.year %>/<%= dRow.month+1 %>/<%= dRow.dayOfMonth %></td>
+                                <% }); %>
+                                <% row.numberFields.forEach(function(nRow){ %>
+                                    <td><%= nRow.value %></td>
+                                <% }); %>
+                            </tr>
+                        <% }) %> 
+                    </table>
+                    <br>
+                </div>
+
+                <!-- FOOD SECURITY GAPS DETAILS -->
+                <div>                    
+                    <p>
+                        <strong>Gaps</strong>
+                    </p>
+                    <% var foodGapsDetails = dnca.info.foodSecurityInformation.foodSecurityGapsDetails %>
+                    <table id="food-gaps-data">
+                        <% foodGapsDetails.stringFields.forEach(function(row){ %>
+                        <tr>
+                            <td><%= row.question %></td>
+                            <td><%= row.value %></td>
+                        </tr>
+                        <% }); %>
+                    </table>
+                    <br>
+                </div>
+
+            </div>            
         <br>
     </div>    
 </body>
