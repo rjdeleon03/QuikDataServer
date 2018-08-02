@@ -158,7 +158,7 @@
                         <strong>Calamity and Area Details</strong>
                     </p>
                     <% var calamityDetails = dnca.info.generalInformation.calamityDetails %>
-                    <table id="calamity">
+                    <table id="calamity-data">
                         <tr>
                             <td><%= calamityDetails.dateFields[0].question %>:</td>
                             <td><%= calamityDetails.dateFields[0].year %>/<%= calamityDetails.dateFields[0].month+1 %>/<%= calamityDetails.dateFields[0].dayOfMonth %></td>
@@ -317,10 +317,16 @@
                     <% var deathCauseData = dnca.info.generalInformation.deathCauseData %>          
                     <table id="death-cause-data">
                         <tr>
-                            <th colspan="2">Age</th>
-                            <% deathCauseData.rows[0].genderTupleFields.forEach(function(gtRow) { %>  
-                                <th><%= gtRow.question %></th>
-                            <% }) %> 
+                            <th colspan=2>Age and Gender</th>
+                            <th>Measles</th>
+                            <th>Diarrhea</th>
+                            <th>Pneumonia</th>
+                            <th>Dengue</th>
+                            <th>Drowning</th>
+                            <th>Heart Attack</th>
+                            <th>Electrocution</th>
+                            <th>Collapsed Building</th>
+                            <th>Others</th>
                         </tr>
                         <% deathCauseData.rows.forEach(function(row) { %>                    
                             <tr>
@@ -378,6 +384,121 @@
                                 <% }) %> 
                             </tr>
                         <% }) %>  
+                    </table>
+                    <br>
+                </div>
+            </div>
+            
+            <!-- SHELTER AND NON-FOOD ITEMS -->
+            <div class="table-info">
+                <p>
+                    <strong>II. SHELTER AND NON-FOOD ITEMS</strong>
+                </p>
+
+                <!-- HOUSE DAMAGE DATA -->
+                <div>                    
+                    <p>
+                        <strong>Damage to Houses</strong>
+                    </p>
+                    <% var houseDamageData = dnca.info.shelterInformation.damageData %>
+                    <table id="house-damage-data">
+                        <tr>
+                            <th rowspan="2">Type of Houses</th>
+                            <th colspan="3">House Ownership</th>
+                            <th colspan="3">Land Ownership</th>
+                            <th rowspan="2">How many are informal settler families?</th>
+                            <th rowspan="2">Number of Partially Damaged Houses (can still be repaired)</th>
+                            <th rowspan="2">Number of Totally Damaged Houses</th>
+                        </tr>
+                        <tr>
+                            <th>How many HH own their property?</th>
+                            <th>How many HH are in rented property?</th>
+                            <th>How many HH are in shared property? (nakikitira)</th>
+                            <th>Owned</th>
+                            <th>Rented</th>
+                            <th>Tenant</th>
+                        </tr> 
+
+                        <% houseDamageData.rows.forEach(function(row) { %>                    
+                            <tr>
+                                <td><%= row.houseType %></td>
+                                <% row.numberFields.forEach(function(nRow){ %>
+                                    <td><%= nRow.value %></td>
+                                <% }); %>
+                            </tr>
+                        <% }) %> 
+                    </table>
+                    <br>
+                </div>
+
+                <!-- SHELTER COPING DETAILS -->
+                <div>                    
+                    <p>
+                        <strong>Coping</strong>
+                    </p>
+                    <% var shelterCopingDetails = dnca.info.shelterInformation.shelterCopingDetails %>
+                    <table id="shelter-coping-data">
+                        <% shelterCopingDetails.stringFields.forEach(function(row){ %>
+                        <tr>
+                            <td><%= row.question %>:</td>
+                            <td><%= row.value %></td>
+                        </tr>
+                        <% }); %>
+                    </table>
+                    <br>
+                </div>
+
+                <!-- SHELTER ASSISTANCE DATA -->
+                <div>                    
+                    <p>
+                        <strong>Assistance</strong>
+                    </p>
+                    <% var shelterAssistanceData = dnca.info.shelterInformation.shelterAssistanceData %>
+                    <table id="shelter-assistance-data">
+                        <tr>
+                            <th rowspan="2">Name of Organization/Agency</th>
+                            <th rowspan="2">Type of Assistance Received</th>
+                            <th rowspan="2">Date Received</th>
+                            <th rowspan="2">Quantity/Amount</th>
+                            <th colspan="4">Beneficiaries</th>
+                        </tr>
+                        <tr>
+                            <th>Men</th>
+                            <th>Women</th>
+                            <th>Boys</th>
+                            <th>Girls</th>
+                        </tr> 
+
+                        <% shelterAssistanceData.rows.forEach(function(row) { %> 
+                            <tr>
+                                <% row.stringFields.forEach(function(sRow){ %>
+                                    <td><%= sRow.value %></td>
+                                <% }); %>
+                                <% row.dateFields.forEach(function(dRow){ %>
+                                    <td><%= dRow.year %>/<%= dRow.month+1 %>/<%= dRow.dayOfMonth %></td>
+                                <% }); %>
+                                <% row.numberFields.forEach(function(nRow){ %>
+                                    <td><%= nRow.value %></td>
+                                <% }); %>
+                            </tr>
+                        <% }) %> 
+                    </table>
+                    <br>
+                </div>
+
+                <!-- SHELTER GAPS DETAILS -->
+                <div>                    
+                    <p>
+                        <strong>Gaps</strong>
+                    </p>
+                    <% var shelterGapsDetails = dnca.info.shelterInformation.shelterGapsDetails %>
+                    <table id="shelter-gaps-data">
+                        <% shelterGapsDetails.stringFields.forEach(function(row){ %>
+                        <tr>
+                            <td><%= row.question %>:</td>
+                            <td><%= row.value %></td>
+                        </tr>
+                        <% }); %>
                     </table>
                     <br>
                 </div>
