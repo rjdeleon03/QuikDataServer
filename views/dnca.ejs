@@ -678,7 +678,217 @@
                     <br>
                 </div>
 
-            </div>            
+            </div>  
+
+            <!-- LIVELIHOODS -->
+            <div class="table-info">
+                <p>
+                    <strong>V. LIVELIHOODS</strong>
+                </p>
+
+                <!-- INCOME SOURCES (BEFORE EMERGENCY) -->
+                <% var livelihoodsIncomeSourceDataBefore = dnca.info.livelihoodsInformation.livelihoodsIncomeSourceDataBefore %>
+                <!-- <% if (livelihoodsIncomeSourceDataBefore.rows.length > 0) { %> -->
+                <!-- <% } %> -->
+                <div>                    
+                    <p>
+                        <strong>Main Sources of Income BEFORE the Emergency</strong>
+                    </p>
+                    <table id="income-before-data">
+                        <tr>
+                            <th rowspan="2">Source of Income</th>
+                            <th rowspan="2">Type</th>
+                            <th rowspan="2">Number of Dependent Households</th>
+                            <th rowspan="2">Number of Male</th>
+                            <th rowspan="2">Number of Female</th>
+                            <th colspan="2">Children/Youth</th>
+                            <th rowspan="2">Average Monthly or Daily Income per Household</th>
+                        </tr>    
+                        <tr>
+                            <th>Number of Boys</th>
+                            <th>Number of Girls</th>
+                        </tr>
+                        <% livelihoodsIncomeSourceDataBefore.rows.forEach(function(row){ %>        
+                            <tr>                        
+                            <% row.stringFields.forEach(function(sRow){ %>
+                                    <td><%= sRow.value %></td>   
+                            <% }); %>
+                            <td><%= row.incomeSourceType %></td>            
+                            <% row.numberFields.forEach(function(nRow){ %>
+                                    <td><%= nRow.value %></td>   
+                            <% }); %>
+                        <% }); %>
+                    </table>
+                    <br>
+                </div> 
+
+                <!-- INCOME SOURCES (AFTER EMERGENCY) -->
+                <% var livelihoodsIncomeSourceDataAfter = dnca.info.livelihoodsInformation.livelihoodsIncomeSourceDataAfter %>
+                <!-- <% if (livelihoodsIncomeSourceDataAfter.rows.length > 0) { %> -->
+                <!-- <% } %> -->
+                <div>                    
+                    <p>
+                        <strong>Main Sources of Income AFTER the Emergency</strong>
+                    </p>
+                    <table id="income-after-data">
+                        <tr>
+                            <th rowspan="2">Source of Income</th>
+                            <th rowspan="2">Type</th>
+                            <th rowspan="2">Number of Dependent Households</th>
+                            <th rowspan="2">Number of Male</th>
+                            <th rowspan="2">Number of Female</th>
+                            <th colspan="2">Children/Youth</th>
+                            <th rowspan="2">Average Monthly or Daily Income per Household</th>
+                        </tr>    
+                        <tr>
+                            <th>Number of Boys</th>
+                            <th>Number of Girls</th>
+                        </tr>
+                        <% livelihoodsIncomeSourceDataAfter.rows.forEach(function(row){ %>        
+                            <tr>                        
+                            <% row.stringFields.forEach(function(sRow){ %>
+                                    <td><%= sRow.value %></td>   
+                            <% }); %>
+                            <td><%= row.incomeSourceType %></td>            
+                            <% row.numberFields.forEach(function(nRow){ %>
+                                    <td><%= nRow.value %></td>   
+                            <% }); %>
+                        <% }); %>
+                    </table>
+                    <br>
+                </div> 
+
+                <!-- LIVELIHOODS DAMAGE COST -->
+                <% var livelihoodsDamageCostData = dnca.info.livelihoodsInformation.livelihoodsDamageCostData %>
+                <!-- <% if (livelihoodsDamageCostData.rows.length > 0) { %> -->
+                <!-- <% } %> -->
+                <div>                    
+                    <p>
+                        <strong>Estimated Cost of Damage to Livelihoods</strong>
+                    </p>
+                    <table id="livelihoods-damage-data">
+                        <tr>
+                            <th>Livelihood Type</th>
+                            <th>Estimated Damage Cost (in PHP)</th>
+                            <th>Remarks</th>
+                        </tr>
+                        <% livelihoodsDamageCostData.rows.forEach(function(row){ %>        
+                            <tr>                      
+                                <td>
+                                    <%= row.livelihoodsType %>
+                                    <% row.booleanGroup.booleanFields.forEach(function(bgRow){ %>
+                                        <br><%= bgRow.value %> - <%= bgRow.question %>   
+                                    <% }); %>  
+                                </td>  
+                                <% row.numberFields.forEach(function(nRow){ %>
+                                    <td><%= nRow.value %></td>   
+                                <% }); %>               
+                                <% row.stringFields.forEach(function(sRow){ %>
+                                    <td><%= sRow.value %></td>   
+                                <% }); %>
+                            </tr>                            
+                        <% }); %>
+                    </table>
+                    <br>
+                </div>                
+
+                <!-- LIVELIHOODS COPING DETAILS -->
+                <div>                    
+                    <p>
+                        <strong>Coping</strong>
+                    </p>
+                    <% var livelihoodsCopingDetails = dnca.info.livelihoodsInformation.livelihoodsCopingDetails %>
+                    <table id="livelihoods-coping-data">
+                        <% livelihoodsCopingDetails.stringFields.forEach(function(row){ %>
+                        <tr>
+                            <td><%= row.question %></td>
+                            <td><%= row.value %></td>
+                        </tr>
+                        <% }); %>
+                    </table>
+                    <br>
+                </div>
+
+                <!-- LIVELIHOODS NEEDS DETAILS -->
+                <div>                    
+                    <p>
+                        <strong>Needs</strong>
+                    </p>
+                    <% var livelihoodsNeedsDetails = dnca.info.livelihoodsInformation.livelihoodsNeedsDetails %>
+                    <table id="livelihoods-needs-data">
+                        <% livelihoodsNeedsDetails.stringFields.forEach(function(row){ %>
+                        <tr>
+                            <td><%= row.question %></td>
+                            <td><%= row.value %></td>
+                        </tr>
+                        <% }); %>
+                    </table>
+                    <br>
+                </div>
+
+                <!-- LIVELIHOODS ASSISTANCE DATA -->
+                <% var livelihoodsAssistanceData = dnca.info.livelihoodsInformation.livelihoodsAssistanceData %>
+                <!-- <% if (livelihoodsAssistanceData.rows.length > 0) { %> -->
+                <!-- <% } %> -->
+                <div>                    
+                    <p>
+                        <strong>Assistance</strong>
+                    </p>
+                    <table id="food-assistance-data">
+                        <tr>
+                            <th rowspan="2">Name of Organization/Agency</th>
+                            <th rowspan="2">Type of Assistance Received</th>
+                            <th rowspan="2">Date Received</th>
+                            <th rowspan="2">Quantity/Amount</th>
+                            <th colspan="4">Beneficiaries</th>
+                        </tr>
+                        <tr>
+                            <th>Men</th>
+                            <th>Women</th>
+                            <th>Boys</th>
+                            <th>Girls</th>
+                        </tr> 
+
+                        <% livelihoodsAssistanceData.rows.forEach(function(row) { %> 
+                            <tr>
+                                <% row.stringFields.forEach(function(sRow){ %>
+                                    <td><%= sRow.value %></td>
+                                <% }); %>
+                                <% row.dateFields.forEach(function(dRow){ %>
+                                    <td><%= dRow.year %>/<%= dRow.month+1 %>/<%= dRow.dayOfMonth %></td>
+                                <% }); %>
+                                <% row.numberFields.forEach(function(nRow){ %>
+                                    <td><%= nRow.value %></td>
+                                <% }); %>
+                            </tr>
+                        <% }) %> 
+                    </table>
+                    <br>
+                </div>
+
+                <!-- LIVELIHOODS GAPS DETAILS -->
+                <div>                    
+                    <p>
+                        <strong>Gaps</strong>
+                    </p>
+                    <% var livelihoodsGapsDetails = dnca.info.livelihoodsInformation.livelihoodsGapsDetails %>
+                    <table id="livelihoods-gaps-data">
+                        <tr>
+                            <th>Do men and women have equal access to:</th>
+                            <th></th>
+                            <th>Remarks</th>
+                        </tr>
+                        <% livelihoodsGapsDetails.booleanStringFields.forEach(function(row) { %>                    
+                            <tr>
+                                <td><%= row.question %></td>
+                                <td><%= row.value %></td>
+                                <td><%= row.remarks %></td>
+                            </tr>
+                        <% }) %>  
+                    </table>
+                    <br>
+                </div>
+            </div>        
         <br>
     </div>    
 </body>
