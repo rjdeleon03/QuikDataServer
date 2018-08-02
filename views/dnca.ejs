@@ -1097,11 +1097,11 @@
                             <th>Level</th>
                             <th>Remarks</th>
                         </tr>
-                        <% washConditionsDetails.multChoiceFields.forEach(function(mcRow){ %>
+                        <% washConditionsDetails.multChoiceRemarksFields.forEach(function(mcRow){ %>
                             <tr>
                                 <td><%= mcRow.question %></td>
                                 <td><%= mcRow.choices[mcRow.selected] %></td>
-                                <td><!-- TODO --></td>
+                                <td><%= mcRow.remarks %></td>
                             </tr>
                         <% }); %>
                         <tr>
