@@ -92,13 +92,13 @@ client.query(`
 /**
  * Creates image table (TEST only)
  */
-// client.query(`
-//     CREATE TABLE IF NOT EXISTS dnca_image_test (
-//         ID serial NOT NULL PRIMARY KEY,
-//         dnca_id int,
-//         url varchar(255) NOT NULL
-//     );`, dbTableCreationCallback
-// );
+client.query(`
+    CREATE TABLE IF NOT EXISTS dnca_image_test (
+        id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+        dnca_id uuid,
+        url varchar(999) NOT NULL
+    );`, dbTableCreationCallback
+);
 
 /**
  * Callback for DB table creation
@@ -240,7 +240,7 @@ app.get("/api/dnca/:id/download", function(req, res, next) {
 app.post("/api/dnca", function(req, res, next) {
     console.log(req.body);
     req.app.get("dbClient").query(
-        "INSERT INTO dnca(info) VALUES($1)", [req.body],
+        "INSERT INTO dnca(info) VALUES($1) RETURNING id", [req.body],
         function(err, result) {
             if (err) {
                 console.log("DB operation failed: " + err);
@@ -248,7 +248,7 @@ app.post("/api/dnca", function(req, res, next) {
             } else {
                 console.log("Successfully added DNCA form!");
                 console.log(result);
-                res.status(200).send("DNCA form sent!");
+                res.status(200).send(result.rows[0].id);
             }
         }
     );
@@ -257,17 +257,17 @@ app.post("/api/dnca", function(req, res, next) {
 /**
  * Handles image submission
  */
-app.post("/api/images", upload.array('image', 5), function(req, res, next) {
-    console.log(req.files);
+app.post("/api/images", upload.array('image', 6), function(req, res, next) {
     var hasError = false;
     var fileUrls = [];
     req.files.forEach(function(file) {
         req.app.get("dbClient").query(
 
             //TODO: Reference DNCA form ID for image entry in DB
-            "INSERT INTO dnca_image_test(dnca_id, url) VALUES($1, $2)", [0, file.path],
+            "INSERT INTO dnca_image_test(dnca_id, url) VALUES($1, $2)", [req.body.form_id, file.filename],
             function(err, result) {
                 hasError = err;
+                console.log(err);
             }
         );
         fileUrls.push(file.filename);
