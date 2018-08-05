@@ -146,8 +146,10 @@ app.get("/api/dnca", function(req, res, next){
  * Handles viewing of individual DNCA forms
  */
 app.get("/api/dnca/:id", function(req, res, next) {
+    formId = [req.params.id];
+
     req.app.get("dbClient").query(
-        "SELECT * FROM dnca WHERE ID=$1", [req.params.id],
+        "SELECT * FROM dnca WHERE ID=$1", formId,
         function(err, result) {
             if (err) {
                 console.log("DB operation failed: " + err);
@@ -163,6 +165,30 @@ app.get("/api/dnca/:id", function(req, res, next) {
         }
     );
 });
+
+/*
+function getFormImages(formId, req) {
+
+    req.app.get("dbClient").query(
+        "SELECT * FROM dnca_image_test WHERE dnca_id=$1", formId,
+        function(err, result) {
+            if (err) {
+                console.log("DB operation failed: " + err);
+                res.status(400).send(err);
+            } else {                
+                console.log("Successfully retrieved images of form: " + formId);
+                console.log(result.rows);
+
+                var imageFileNames = [];
+                result.rows.forEach(function(row) {
+                    imageFileNames.push(row.url);
+                });
+                return imageFileNames;
+            }
+        }
+    );
+}
+ */
 
 /**
  * Handles viewing of individual DNCA forms contents
@@ -263,7 +289,7 @@ app.post("/api/images", upload.array('image', 6), function(req, res, next) {
     req.files.forEach(function(file) {
         req.app.get("dbClient").query(
 
-            //TODO: Reference DNCA form ID for image entry in DB
+            //Reference DNCA form ID for image entry in DB
             "INSERT INTO dnca_image_test(dnca_id, url) VALUES($1, $2)", [req.body.form_id, file.filename],
             function(err, result) {
                 hasError = err;
@@ -276,10 +302,41 @@ app.post("/api/images", upload.array('image', 6), function(req, res, next) {
         console.log("DB operation failed: " + err);
         res.status(400).send(err);
     } else {
-        console.log("Successfully added image!");
-        res.status(200).send(fileUrls);
+        console.log("Successfully added image(s)!");
+        // res.status(200).send(fileUrls);
+
+        req.app.get("dbClient").query(
+            
+            // Replace image urls in case stories after uploading images
+            // TODO: Fix query
+            `
+            UPDATE dnca
+            SET info = JSONB_SET(
+                "info",
+                '{caseStories -> imagePaths}',
+                $1,
+                true
+            )
+            WHERE id = VALUES($2);
+            `,
+            [fileUrls, req.body.form_id],
+            function(err, result) {
+                hasError = err;
+                console.log(err);
+            }
+        );
     }
 });
+
+/**
+ * SELECT id, 
+                (info::json->'formInfo'->'sitio') AS sitio, 
+                (info::json->'formInfo'->'barangay') AS barangay, 
+                (info::json->'formInfo'->'city') AS city, 
+                (info::json->'formInfo'->'province') AS province, 
+                (info::json->'formInfo'->'assessmentDate') AS assessmentDate 
+            FROM dnca;
+ */
 
 /**
  * Serves images
