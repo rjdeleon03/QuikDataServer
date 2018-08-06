@@ -142,6 +142,13 @@ app.get("/api/dnca", function(req, res, next){
     );
 });
 
+var textMap = {
+    "orgName" : "Organization Name",
+    "assessmentDate" : "Assessment Date",
+    "sitio" : "Sitio/Purok/Zone",
+    "barangay" : "Barangay",
+}
+
 /**
  * Handles viewing of individual DNCA forms
  */
@@ -158,6 +165,7 @@ app.get("/api/dnca/:id", function(req, res, next) {
                 console.log("Successfully retrieved DNCA form!");
                 console.log(result.rows);
                 res.status(200).render("dnca", {
+                    textMap: textMap,
                     dnca: result.rows[0],
                     url: req.protocol + '://' + req.get('host')
                 });
@@ -213,6 +221,7 @@ app.get("/api/dnca/:id/download", function(req, res, next) {
                 var data = result.rows[0];
                 var compiled = ejs.compile(fs.readFileSync(__dirname + "/views/dnca.ejs", "utf-8"));
                 var html = compiled({
+                    textMap: textMap,
                     dnca: data,
                     url: req.protocol + '://' + req.get('host')
                 });
