@@ -43,6 +43,10 @@ table {
     border-collapse: collapse;
 }
 
+.table-info {
+    page-break-after:always
+}
+
 .table-info #calamity td:nth-child(2n) {
     width: 82%;
 }

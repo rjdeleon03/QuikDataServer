@@ -167,30 +167,6 @@ app.get("/api/dnca/:id", function(req, res, next) {
 });
 
 /**
-function getFormImages(formId, req) {
-
-    req.app.get("dbClient").query(
-        "SELECT * FROM dnca_image_test WHERE dnca_id=$1", formId,
-        function(err, result) {
-            if (err) {
-                console.log("DB operation failed: " + err);
-                res.status(400).send(err);
-            } else {                
-                console.log("Successfully retrieved images of form: " + formId);
-                console.log(result.rows);
-
-                var imageFileNames = [];
-                result.rows.forEach(function(row) {
-                    imageFileNames.push(row.url);
-                });
-                return imageFileNames;
-            }
-        }
-    );
-}
- */
-
-/**
  * Handles viewing of individual DNCA forms contents
  * For debug use only - Remove when deploying
  */
@@ -241,9 +217,13 @@ app.get("/api/dnca/:id/download", function(req, res, next) {
                     url: req.protocol + '://' + req.get('host')
                 });
                 
+                var config = {
+                    "border": "0.5in"
+                };
+
                 // Render pdf
                 res.setHeader('Content-type', 'application/pdf');
-                pdf.create(html).toStream(function(err, stream){
+                pdf.create(html, config).toStream(function(err, stream){
                     if (err) {
                         console.log("Error generating PDF: " + err);
                         res.status(404).send("Error!");
