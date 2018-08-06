@@ -166,7 +166,7 @@ app.get("/api/dnca/:id", function(req, res, next) {
     );
 });
 
-/*
+/**
 function getFormImages(formId, req) {
 
     req.app.get("dbClient").query(
@@ -293,7 +293,6 @@ app.post("/api/images", upload.array('image', 6), function(req, res, next) {
             "INSERT INTO dnca_image_test(dnca_id, url) VALUES($1, $2)", [req.body.form_id, file.filename],
             function(err, result) {
                 hasError = err;
-                console.log(err);
             }
         );
         fileUrls.push(file.filename);
@@ -303,26 +302,41 @@ app.post("/api/images", upload.array('image', 6), function(req, res, next) {
         res.status(400).send(err);
     } else {
         console.log("Successfully added image(s)!");
-        // res.status(200).send(fileUrls);
+        res.status(200).send(fileUrls);
 
+        var form;
         req.app.get("dbClient").query(
             
             // Replace image urls in case stories after uploading images
             // TODO: Fix query
-            `
-            UPDATE dnca
-            SET info = JSONB_SET(
-                "info",
-                '{caseStories -> imagePaths}',
-                $1,
-                true
-            )
-            WHERE id = VALUES($2);
-            `,
-            [fileUrls, req.body.form_id],
+            // `
+            // UPDATE dnca
+            // SET info = JSONB_SET(
+            //     '{}',
+            //     '{caseStories}',
+            //     JSONB '{"imagePaths" : ["hello", "bye"]}'
+            // )
+            // WHERE id = $1;
+            // `,
+            "SELECT * FROM dnca WHERE ID=$1", [req.body.form_id],
             function(err, result) {
                 hasError = err;
-                console.log(err);
+
+                if (err) {
+                    console.log(err);
+                } else {
+                    form = result.rows[0].info;
+                    form.caseStories.imagePaths = fileUrls;
+
+                    req.app.get("dbClient").query(
+                        `UPDATE dnca SET info = $1 WHERE id = $2;`,
+                        [form, req.body.form_id],
+                        function (err, result) {
+                            hasError = err;
+                            console.log(err);
+                        }
+                    );
+                }
             }
         );
     }
