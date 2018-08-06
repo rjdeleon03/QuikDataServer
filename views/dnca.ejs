@@ -1306,6 +1306,34 @@
                     <br>
                 </div>
                 <% }); %>
+                <br>
+            </div>
+
+            <!-- CASE STORIES -->
+            <div class="table-info">
+                <p>
+                    <strong>VIII. CASE STORIES</strong>
+                </p>
+                <% var imageCount = dnca.info.caseStories.imagePaths.length %>
+                <table id="case-stories">
+                    <tr>
+                        <th colspan="<%= imageCount %>">Images</th>
+                    </tr>         
+                    <tr>
+                        <% dnca.info.caseStories.imagePaths.forEach(function(image) { %>           
+                                <td><img src="<%= url + "/images/" + image %>"></td>
+                        <% }) %> 
+                    </tr>
+                    <tr>
+                        <th colspan="<%= imageCount %>">Stories</th>
+                    </tr>  
+                    <tr>
+                        <td colspan="<%= imageCount %>">
+                            <p><%= dnca.info.caseStories.storiesText %></p>
+                        </td>
+                    </tr> 
+                </table>
+                <br>
             </div>
         <br>
     </div>    
