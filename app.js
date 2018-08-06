@@ -74,7 +74,7 @@ client.query(`
 client.query(`
     CREATE TABLE IF NOT EXISTS dnca (
         id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-        info json NOT NULL
+        info JSONB NOT NULL
     );`, dbTableCreationCallback
 );
 
@@ -302,41 +302,32 @@ app.post("/api/images", upload.array('image', 6), function(req, res, next) {
         res.status(400).send(err);
     } else {
         console.log("Successfully added image(s)!");
-        res.status(200).send(fileUrls);
 
         var form;
         req.app.get("dbClient").query(
             
             // Replace image urls in case stories after uploading images
             // TODO: Fix query
-            // `
-            // UPDATE dnca
-            // SET info = JSONB_SET(
-            //     '{}',
-            //     '{caseStories}',
-            //     JSONB '{"imagePaths" : ["hello", "bye"]}'
-            // )
-            // WHERE id = $1;
-            // `,
-            "SELECT * FROM dnca WHERE ID=$1", [req.body.form_id],
+            `
+            UPDATE dnca
+            SET info = JSONB_SET(
+                info,
+                '{caseStories,imagePaths}',
+                JSONB ($2::text)
+            )
+            WHERE id = $1;
+            `,
+            // "SELECT * FROM dnca WHERE ID=$1", 
+            [req.body.form_id, JSON.stringify(fileUrls)],
             function(err, result) {
                 hasError = err;
 
                 if (err) {
                     console.log(err);
                 } else {
-                    form = result.rows[0].info;
-                    form.caseStories.imagePaths = fileUrls;
-
-                    req.app.get("dbClient").query(
-                        `UPDATE dnca SET info = $1 WHERE id = $2;`,
-                        [form, req.body.form_id],
-                        function (err, result) {
-                            hasError = err;
-                            console.log(err);
-                        }
-                    );
+                    console.log("Successfully updated DNCA form!");
                 }
+                res.status(200).send(fileUrls);
             }
         );
     }
